@@ -2,7 +2,7 @@ package selenium;
 import java.util.*;
 
 public class HSCodes {
-    public static ArrayList<ArrayList<Integer>> getList(){
+    public static ArrayList<ArrayList<Integer>> getList(){ //returns 2d list of hscodes according to product group
         ArrayList<ArrayList<Integer>> hello = new ArrayList<>();
         ArrayList<Integer> temp = new ArrayList<>();
         temp.add(27090010);
@@ -41,8 +41,19 @@ public class HSCodes {
         ArrayList<Integer> temp7 = new ArrayList<>();
         temp7.add(27101979);
         hello.add(temp7);
-
+        //System.out.println(hello);
         return hello;
+    }
 
+    public static ArrayList<String> getProductNames(){
+        ArrayList<String> hello = new ArrayList<>();
+        hello.add("crude_oil");
+        hello.add("condensates");
+        hello.add("gasoline");
+        hello.add("naphtha");
+        hello.add("jet_fuel");
+        hello.add("gasoil_diesel");
+        hello.add("fuel_oil");
+        return hello;
     }
 }
