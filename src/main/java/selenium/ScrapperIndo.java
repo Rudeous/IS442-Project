@@ -27,7 +27,8 @@ public class ScrapperIndo {
         System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir")+"\\src\\main\\resources\\chromedriver.exe"); //relative path
         HashMap<String, Object> chromePrefs = new HashMap<String, Object>();
         chromePrefs.put("profile.default_content_settings.popups", 0);
-        chromePrefs.put("download.default_directory", System.getProperty("user.dir")+"\\src\\main\\resources"); //specify relative download path
+        chromePrefs.put("download.default_directory",
+                System.getProperty("user.dir")+"\\src\\main\\resources\\indonesia"); //specify relative download path
         ChromeOptions options = new ChromeOptions();
         options.setExperimentalOption("prefs", chromePrefs);
         options.addArguments("--headless");
@@ -72,7 +73,7 @@ public class ScrapperIndo {
                 }
                 WebElement HSCodeInput = driver.findElement(By.id("s2id_autogen4")); //input HS Codes and generate by product group
                 HSCodeInput.click();
-                ArrayList<ArrayList<Integer>> HSCodeList = HSCodes.getList(); //get hardcoded list of HS Codes by product group
+                ArrayList<ArrayList<Integer>> HSCodeList = HSCodes.getList(); //get 2d list of HS Codes by product group
                 for (ArrayList<Integer> productGroup : HSCodeList){
                     System.out.println("Downloading product group: "+productGroup);
                     ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView({block: 'center', inline: 'nearest'});", HSCodeInput);
@@ -97,9 +98,11 @@ public class ScrapperIndo {
                         driver.findElement(By.xpath("//*[@id=\"output\"]/table/tbody/tr[2]/td[1]/select")).click();
                         driver.findElement(By.xpath("//*[@id=\"output\"]/table/tbody/tr[2]/td[1]/select/option[2]")).click();
                         WebElement excelButton = driver.findElement(By.xpath("/html/body/div[2]/div/div/div[3]/div[2]/div[2]/div[2]/div/div/input"));
-                        ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView({block: 'center', inline: 'nearest'});", excelButton);
+                        ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView({block: 'center', " +
+                                "inline: 'nearest'});", excelButton); //download excel
                         excelButton.click();
                         Thread.sleep(1000);
+
                     }
                     ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView({block: 'center', inline: 'nearest'});", HSCodeInput);
                     for (int i=0;i<backspaces;i++){
@@ -108,6 +111,7 @@ public class ScrapperIndo {
                     }
                 }
             }
+            Thread.sleep(1000);
         }
         catch(Exception e){
             e.printStackTrace();
@@ -115,6 +119,8 @@ public class ScrapperIndo {
         finally{
             System.out.println("Web Driver closing");
             driver.close();
+            //rename files to product group
+            FileFunction.renameFiles();
         }
 
     }
