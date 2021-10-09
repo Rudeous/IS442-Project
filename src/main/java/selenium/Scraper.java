@@ -58,7 +58,7 @@ public class Scraper {
             String href = fileDiv.getAttribute("href");
             System.out.println(href);
             driver.get(href);
-            Thread.sleep(1000);
+            Thread.sleep(10000);
         }
 
         driver.close();
