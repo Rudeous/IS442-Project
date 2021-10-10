@@ -3,7 +3,7 @@ import org.junit.jupiter.api.Test;
 
 
 public class scraperTest {
-    @Test
+    // @Test
     void Test() throws InterruptedException {
         Scraper.seleniumScrapeIndia1();
     }
