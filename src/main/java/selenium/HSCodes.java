@@ -56,4 +56,40 @@ public class HSCodes {
         hello.add("fuel_oil");
         return hello;
     }
+
+    public static ArrayList<String> getExcelFileNames(){
+        ArrayList<String> hello = new ArrayList<>();
+        hello.add("IMPORT_crude_oil");
+        hello.add("IMPORT_condensates");
+        hello.add("IMPORT_gasoline");
+        hello.add("IMPORT_naphtha");
+        hello.add("IMPORT_jet_fuel");
+        hello.add("IMPORT_gasoil_diesel");
+        hello.add("IMPORT_fuel_oil");
+        hello.add("EXPORT_crude_oil");
+        hello.add("EXPORT_condensates");
+        hello.add("EXPORT_gasoline");
+        hello.add("EXPORT_naphtha");
+        hello.add("EXPORT_jet_fuel");
+        hello.add("EXPORT_gasoil_diesel");
+        hello.add("EXPORT_fuel_oil");
+        return hello;
+    }
+
+    public static ArrayList<String> getMonthNames(){
+        ArrayList<String> hello = new ArrayList<>();
+        hello.add("January");
+        hello.add("February");
+        hello.add("March");
+        hello.add("April");
+        hello.add("May");
+        hello.add("June");
+        hello.add("July");
+        hello.add("August");
+        hello.add("September");
+        hello.add("October");
+        hello.add("November");
+        hello.add("December");
+        return hello;
+    }
 }
