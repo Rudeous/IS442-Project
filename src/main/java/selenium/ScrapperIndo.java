@@ -7,6 +7,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.JavascriptExecutor;
+import processor.FileFormat;
+
 import java.time.Year;
 import java.util.*;
 
@@ -22,7 +24,7 @@ public class ScrapperIndo {
         }
     }
 
-    public static void ScrapeIndo(){
+    public static void ScrapeIndo() throws InterruptedException {
         // Set the path of the driver to driver executable.
         System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir")+"\\src\\main\\resources\\chromedriver.exe"); //relative path
         HashMap<String, Object> chromePrefs = new HashMap<String, Object>();
@@ -121,6 +123,7 @@ public class ScrapperIndo {
             driver.close();
             //rename files to product group
             FileFunction.renameFiles();
+            FileFormat.change_file_format();
         }
 
     }
