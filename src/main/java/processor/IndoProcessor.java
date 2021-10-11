@@ -53,34 +53,42 @@ public class IndoProcessor {
             ArrayList<String> monthRow = new ArrayList<>();
             ArrayList<String> monthNames = HSCodes.getMonthNames();
 
+            String yearIndicator = "not reached";
+
+            ArrayList<ArrayList<String>> values = new ArrayList<>();
+
+
             while (rowIterator.hasNext())
             {
+                int cellNumber = 0; // to keep track of which cell number when iterating columns
                 System.out.println("======New Row=========");
                 Row row = rowIterator.next();
                 //For each row, iterate through all the columns
                 Iterator<Cell> cellIterator = row.cellIterator();
 
-                while (cellIterator.hasNext())
-                {
+                ArrayList<String> valueRow = new ArrayList<>();
+
+
+                while (cellIterator.hasNext()) {
                     Cell cell = cellIterator.next();
 
                     //COUNTRY==================================================================
-                    if (Objects.equals(cell.toString(), "Negara") && countryIndicator.equals("not reached")){
+                    if (Objects.equals(cell.toString(), "Negara") && countryIndicator.equals("not reached")) {
                         countryIndicator = "doing";
                         continue;
                     }
-                    if (Objects.equals(cell.toString(),"Totals") && countryIndicator.equals("doing")){
+                    if (Objects.equals(cell.toString(), "Totals") && countryIndicator.equals("doing")) {
                         countryIndicator = "done";
                     }
-                    if (!Objects.equals(cell.toString(),"") && countryIndicator.equals("doing") ){//new country
-                         // detected
+                    if (!Objects.equals(cell.toString(), "") && countryIndicator.equals("doing")) {//new country
+                        // detected
                         countries.add(cell.toString());
                         currentCountry = cell.toString();
-                        country.put(cell.toString(),1);
+                        country.put(cell.toString(), 1);
                         cellCount++;
                         countryRow.add(currentCountry);
                     }
-                    if (Objects.equals(cell.toString(),"") && countryIndicator.equals("doing")){//blank space
+                    if (Objects.equals(cell.toString(), "") && countryIndicator.equals("doing")) {//blank space
                         int count = country.containsKey(currentCountry) ? country.get(currentCountry) : 0;
                         country.put(currentCountry, count + 1);
                         cellCount++;
@@ -88,49 +96,69 @@ public class IndoProcessor {
                     }
 
                     //PORT===============================================================
-                    if (Objects.equals(cell.toString(), "Pelabuhan") && portIndicator.equals("not reached")){
+                    if (Objects.equals(cell.toString(), "Pelabuhan") && portIndicator.equals("not reached")) {
                         portIndicator = "doing";
                         continue;
                     }
-                    if (portCount==cellCount && portIndicator.equals("doing")){
+                    if (portCount == cellCount && portIndicator.equals("doing")) {
                         portIndicator = "done";
                     }
-                    if (!Objects.equals(cell.toString(),"") && portIndicator.equals("doing") ){//new country
+                    if (!Objects.equals(cell.toString(), "") && portIndicator.equals("doing")) {//new country
                         // detected
                         //ports.add(cell.toString());
                         //port.put(cell.toString(),1);
                         currentPort = cell.toString();
-                        portRow.add(countryRow.get(portCount)+":"+currentPort);
+                        portRow.add(countryRow.get(portCount) + ":" + currentPort);
                         portCount++;
 
                     }
-                    if (Objects.equals(cell.toString(),"") && portIndicator.equals("doing")){//blank space
+                    if (Objects.equals(cell.toString(), "") && portIndicator.equals("doing")) {//blank space
                         //int count = port.containsKey(currentPort) ? port.get(currentPort) : 0;
                         //port.put(currentPort, count + 1);
-                        portRow.add(countryRow.get(portCount)+":"+currentPort);
+                        portRow.add(countryRow.get(portCount) + ":" + currentPort);
                         portCount++;
                     }
 
                     //MONTH==================================================================
-                    if (Objects.equals(cell.toString(), "Bulan") && monthIndicator.equals("not reached")){
+                    if (Objects.equals(cell.toString(), "Bulan") && monthIndicator.equals("not reached")) {
                         monthIndicator = "doing";
                         continue;
                     }
-                    if (monthCount==cellCount && monthIndicator.equals("doing")){
+                    if (monthCount == cellCount && monthIndicator.equals("doing")) {
                         monthIndicator = "done";
                         System.out.println("asdadad");
                     }
-                    if (monthCount<cellCount && monthIndicator.equals("doing")){
-                        System.out.println("formatting : "+cell.toString());
-                        monthRow.add(portRow.get(monthCount)+":"+monthNames.get(Integer.parseInt(cell.toString().substring(1,3))));
-                        System.out.println(cellCount+" Monthcount :"+monthCount);
+                    if (monthCount < cellCount && monthIndicator.equals("doing")) {
+                        System.out.println("formatting : " + cell.toString());
+                        monthRow.add(portRow.get(monthCount) + ":" + monthNames.get(Integer.parseInt(cell.toString().substring(1, 3))));
+                        System.out.println(cellCount + " Monthcount :" + monthCount);
                         monthCount++;
                     }
 
-
+                    //VALUES/READINGS==========================================================================
+                    if (cell.toString().equals("Kode HS")) {//next numeric cell will be the first year
+                        yearIndicator = "doing";
+                        break;
+                    }
+                    if (cell.toString().equals("Totals") && yearIndicator.equals("doing")){
+                        yearIndicator="done";
+                    }
+                    if (yearIndicator.equals("doing") && cell.toString().equals("") && cellNumber==0){
+                        valueRow.add(values.get(values.size()-1).get(0));
+                        continue;
+                    }
+                    if (yearIndicator.equals("doing")) {
+                        valueRow.add(cell.toString());
+                    }
 
                     //Check the cell type and format accordingly
                     System.out.println(cell.toString());
+                    cellNumber++;
+                }
+                if (yearIndicator.equals("doing") && valueRow.size()>0){
+                    valueRow.remove(2);
+                    valueRow.remove(valueRow.size()-1);
+                    values.add(valueRow);
                 }
                 System.out.println("");
             }
@@ -141,6 +169,7 @@ public class IndoProcessor {
             System.out.println(countryRow);
             System.out.println(portRow);
             System.out.println(monthRow);
+            System.out.println(values);
             file.close();
         }
         catch (Exception e)
