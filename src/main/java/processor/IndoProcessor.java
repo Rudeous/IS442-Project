@@ -3,6 +3,7 @@ package processor;
 import java.io.File;
 import java.io.FileInputStream;
 import java.lang.reflect.Array;
+import java.math.BigDecimal;
 import java.util.Iterator;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -55,7 +56,7 @@ public class IndoProcessor {
 
             String yearIndicator = "not reached";
 
-            ArrayList<ArrayList<String>> values = new ArrayList<>();
+            ArrayList<ArrayList<BigDecimal>> values = new ArrayList<>();
 
 
             while (rowIterator.hasNext())
@@ -66,7 +67,7 @@ public class IndoProcessor {
                 //For each row, iterate through all the columns
                 Iterator<Cell> cellIterator = row.cellIterator();
 
-                ArrayList<String> valueRow = new ArrayList<>();
+                ArrayList<BigDecimal> valueRow = new ArrayList<>();
 
 
                 while (cellIterator.hasNext()) {
@@ -143,12 +144,22 @@ public class IndoProcessor {
                     if (cell.toString().equals("Totals") && yearIndicator.equals("doing")){
                         yearIndicator="done";
                     }
-                    if (yearIndicator.equals("doing") && cell.toString().equals("") && cellNumber==0){
-                        valueRow.add(values.get(values.size()-1).get(0));
+                    if (yearIndicator.equals("doing") && cell.toString().equals("") && cellNumber==0){//copy previous
+                        // year if product code doesn have year in the row
+                        if (cell.getCellType().equals(CellType.NUMERIC)) {
+                            valueRow.add(values.get(values.size() - 1).get(0));
+                        }
                         continue;
                     }
-                    if (yearIndicator.equals("doing")) {
-                        valueRow.add(cell.toString());
+                    if (yearIndicator.equals("doing") && cell.toString().equals("")) {
+                        valueRow.add(new BigDecimal(0));
+                    }
+                    if (yearIndicator.equals("doing") && !cell.toString().equals("")){
+                        if (cell.getCellType().equals(CellType.NUMERIC)){
+                            Double doubleValue = cell.getNumericCellValue();
+                            BigDecimal bd = new BigDecimal(doubleValue.toString());
+                            valueRow.add(bd);
+                        }
                     }
 
                     //Check the cell type and format accordingly
