@@ -146,9 +146,7 @@ public class IndoProcessor {
                     }
                     if (yearIndicator.equals("doing") && cell.toString().equals("") && cellNumber==0){//copy previous
                         // year if product code doesn have year in the row
-                        if (cell.getCellType().equals(CellType.NUMERIC)) {
-                            valueRow.add(values.get(values.size() - 1).get(0));
-                        }
+                        valueRow.add(values.get(values.size() - 1).get(0));
                         continue;
                     }
                     if (yearIndicator.equals("doing") && cell.toString().equals("")) {
@@ -157,7 +155,8 @@ public class IndoProcessor {
                     if (yearIndicator.equals("doing") && !cell.toString().equals("")){
                         if (cell.getCellType().equals(CellType.NUMERIC)){
                             Double doubleValue = cell.getNumericCellValue();
-                            BigDecimal bd = new BigDecimal(doubleValue.toString());
+                            System.out.println("string value:"+doubleValue.toString());
+                            BigDecimal bd = new BigDecimal(String.format("%.2f", doubleValue));
                             valueRow.add(bd);
                         }
                     }
@@ -167,8 +166,8 @@ public class IndoProcessor {
                     cellNumber++;
                 }
                 if (yearIndicator.equals("doing") && valueRow.size()>0){
-                    valueRow.remove(2);
                     valueRow.remove(valueRow.size()-1);
+                    valueRow.remove(1);
                     values.add(valueRow);
                 }
                 System.out.println("");
