@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.util.Iterator;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -40,6 +41,7 @@ public class IndoProcessor {
             String currentCountry=""; //country checker for country hashtable
             Hashtable<String, Integer> country = new Hashtable<String, Integer>();//track horizontal cells occupied
             ArrayList<String> countryRow = new ArrayList<>();
+            boolean totalsColumnExists = false; //some excel files are missing the last column: Totals
 
             int portCount=0;
             String portIndicator = "not reached";
@@ -80,6 +82,7 @@ public class IndoProcessor {
                     }
                     if (Objects.equals(cell.toString(), "Totals") && countryIndicator.equals("doing")) {
                         countryIndicator = "done";
+                        totalsColumnExists = true;
                     }
                     if (!Objects.equals(cell.toString(), "") && countryIndicator.equals("doing")) {//new country
                         // detected
@@ -155,7 +158,7 @@ public class IndoProcessor {
                     if (yearIndicator.equals("doing") && !cell.toString().equals("")){
                         if (cell.getCellType().equals(CellType.NUMERIC)){
                             Double doubleValue = cell.getNumericCellValue();
-                            System.out.println("string value:"+doubleValue.toString());
+                            System.out.println("String value:"+doubleValue.toString());
                             BigDecimal bd = new BigDecimal(String.format("%.2f", doubleValue));
                             valueRow.add(bd);
                         }
@@ -165,9 +168,14 @@ public class IndoProcessor {
                     System.out.println(cell.toString());
                     cellNumber++;
                 }
+                if (countryIndicator.equals("doing")) {
+                    countryIndicator = "done";
+                }
                 if (yearIndicator.equals("doing") && valueRow.size()>0){
-                    valueRow.remove(valueRow.size()-1);
-                    valueRow.remove(1);
+                    if (totalsColumnExists) {
+                        valueRow.remove(valueRow.size() - 1);
+                    }
+                    valueRow.remove(1);//remove the merged empty cell between year and first reading
                     values.add(valueRow);
                 }
                 System.out.println("");
@@ -178,9 +186,14 @@ public class IndoProcessor {
             System.out.println(ports);
             System.out.println(countryRow);
             System.out.println(portRow);
-            System.out.println(monthRow);
+            System.out.println(monthRow); //ARRAYLIST CONTAINING ALL COUNTRY,PORT,MONTH CORRESPONDING TO EACH READING
             System.out.println(values);
+            System.out.println("Values size: "+values.get(0).size());
+            System.out.println("monthRow size: "+monthRow.size());
             file.close();
+
+            //TRANSFORM values arraylist to sum up all product groups in the same year
+            
         }
         catch (Exception e)
         {
