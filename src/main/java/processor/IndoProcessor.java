@@ -3,6 +3,7 @@ package processor;
 import java.io.File;
 import java.io.FileInputStream;
 import java.lang.reflect.Array;
+import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.util.Iterator;
 
@@ -13,18 +14,47 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.CellType;
+import org.w3c.dom.ranges.Range;
 import selenium.HSCodes;
+import org.json.*;
+import java.util.LinkedHashMap;
 
 import java.util.*;
 import java.io.*;
 
 public class IndoProcessor {
-    public static void process()
+
+    public static void processAll(){
+        ArrayList<String> fileNames = HSCodes.getExcelFileNames();
+        String importExportFlag = "";
+        JSONObject finalJSONFile = generateJSONObject();
+        for (String fileName : fileNames){
+            String[] arrOfStr = fileName.split("_", 2);
+            String type = arrOfStr[0]; //import or export
+            String productGroup = arrOfStr[1];
+            JSONObject productGroupJsonObject = process(fileName);
+            if (finalJSONFile.has(type)){
+                finalJSONFile.getJSONObject(type).put(productGroup,productGroupJsonObject);
+            }
+            else{
+                finalJSONFile.put(type,generateJSONObject().put(productGroup,productGroupJsonObject));
+            }
+        }
+        printJson(finalJSONFile);
+        writeJsonObjToFile(finalJSONFile,"./src/main/resources/indonesiaDataset.json");
+    }
+
+    public static void printJson(JSONObject jsonObj){
+        int spacesToIndentEachLevel = 4;
+        System.out.println(jsonObj.toString(spacesToIndentEachLevel));
+    }
+
+    public static JSONObject process(String productFile)
     {
         try
         {
             FileInputStream file = new FileInputStream(new File(System.getProperty("user.dir")+"\\src\\main" +
-                    "\\resources\\testingexcel\\resources\\EXPORT_naphtha.xls"));
+                    "\\resources\\testingexcel\\resources\\"+productFile+".xls"));
 
             //Create Workbook instance holding reference to .xlsx file
             HSSFWorkbook workbook = new HSSFWorkbook(file);
@@ -64,7 +94,7 @@ public class IndoProcessor {
             while (rowIterator.hasNext())
             {
                 int cellNumber = 0; // to keep track of which cell number when iterating columns
-                System.out.println("======New Row=========");
+                //System.out.println("======New Row=========");
                 Row row = rowIterator.next();
                 //For each row, iterate through all the columns
                 Iterator<Cell> cellIterator = row.cellIterator();
@@ -130,12 +160,11 @@ public class IndoProcessor {
                     }
                     if (monthCount == cellCount && monthIndicator.equals("doing")) {
                         monthIndicator = "done";
-                        System.out.println("asdadad");
                     }
                     if (monthCount < cellCount && monthIndicator.equals("doing")) {
-                        System.out.println("formatting : " + cell.toString());
+                        //System.out.println("formatting : " + cell.toString());
                         monthRow.add(portRow.get(monthCount) + ":" + monthNames.get(Integer.parseInt(cell.toString().substring(1, 3))));
-                        System.out.println(cellCount + " Monthcount :" + monthCount);
+                        //System.out.println(cellCount + " Monthcount :" + monthCount);
                         monthCount++;
                     }
 
@@ -158,14 +187,14 @@ public class IndoProcessor {
                     if (yearIndicator.equals("doing") && !cell.toString().equals("")){
                         if (cell.getCellType().equals(CellType.NUMERIC)){
                             Double doubleValue = cell.getNumericCellValue();
-                            System.out.println("String value:"+doubleValue.toString());
+                            //System.out.println("String value:"+doubleValue.toString());
                             BigDecimal bd = new BigDecimal(String.format("%.2f", doubleValue));
                             valueRow.add(bd);
                         }
                     }
 
                     //Check the cell type and format accordingly
-                    System.out.println(cell.toString());
+                    //System.out.println(cell.toString());
                     cellNumber++;
                 }
                 if (countryIndicator.equals("doing")) {
@@ -178,26 +207,111 @@ public class IndoProcessor {
                     valueRow.remove(1);//remove the merged empty cell between year and first reading
                     values.add(valueRow);
                 }
-                System.out.println("");
+                //System.out.println("");
             }
-            System.out.println(country);
-            System.out.println(countries);
-            System.out.println(port);
-            System.out.println(ports);
-            System.out.println(countryRow);
-            System.out.println(portRow);
-            System.out.println(monthRow); //ARRAYLIST CONTAINING ALL COUNTRY,PORT,MONTH CORRESPONDING TO EACH READING
-            System.out.println(values);
-            System.out.println("Values size: "+values.get(0).size());
-            System.out.println("monthRow size: "+monthRow.size());
+//            System.out.println(country);
+//            System.out.println(countries);
+//            System.out.println(port);
+//            System.out.println(ports);
+//            System.out.println(countryRow);
+//            System.out.println(portRow);
+//            System.out.println(monthRow); //ARRAYLIST CONTAINING ALL COUNTRY,PORT,MONTH CORRESPONDING TO EACH READING
+//            System.out.println(values);
+//            for (ArrayList<BigDecimal> valueRow: values){
+//                System.out.println("values size:"+valueRow.size());
+//            }
+//            System.out.println("monthRow size: "+monthRow.size());
             file.close();
 
             //TRANSFORM values arraylist to sum up all product groups in the same year
-            
+            ArrayList<ArrayList<BigDecimal>> newValues = new ArrayList<>();//
+            BigDecimal currentYear = new BigDecimal(0);
+            for (ArrayList<BigDecimal> eachValueRow: values){
+                if ( Objects.equals(currentYear, new BigDecimal(0))|| !Objects.equals(eachValueRow.get(0),
+                        currentYear)){
+                    currentYear = eachValueRow.get(0);
+                    newValues.add(new ArrayList<BigDecimal>(eachValueRow));
+                }
+                else{
+                    for (int i=1; i<eachValueRow.size();i++){
+                        BigDecimal sum = newValues.get(newValues.size()-1).get(i).add(eachValueRow.get(i));
+                        newValues.get(newValues.size()-1).set(i,sum);
+                    }
+                }
+            }
+//            System.out.println(monthRow);
+//            System.out.println(newValues);
+
+
+            //WRITE INTO JSON FILE
+            return convertToJson(monthRow,newValues);
+
         }
         catch (Exception e)
         {
             e.printStackTrace();
         }
+        return generateJSONObject().put("Error","error in reading and generating .json file");
+    }
+
+    public static JSONObject generateJSONObject(){ // allows json key value pair to be inserted in order
+        JSONObject jsonProductObject = new JSONObject();
+        try {
+            Field changeMap = jsonProductObject.getClass().getDeclaredField("map");
+            changeMap.setAccessible(true);
+            changeMap.set(jsonProductObject, new LinkedHashMap<>());
+            changeMap.setAccessible(false);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return jsonProductObject;
+    }
+
+    public static JSONObject convertToJson(ArrayList<String> monthRow, ArrayList<ArrayList<BigDecimal>> newValues){
+        //int spacesToIndentEachLevel = 2;
+        //new JSONObject(jsonString).toString(spacesToIndentEachLevel);
+
+        JSONObject jsonProductObject = generateJSONObject(); //final json product object
+
+        for (ArrayList<BigDecimal> eachValueRow: newValues){
+            JSONObject jsonYearObject = generateJSONObject(); //store all readings in a year into a json object
+            String currentYear = String.format("%.0f", eachValueRow.get(0));
+            for (int i=1; i<eachValueRow.size();i++){
+                String[] arrOfStr = monthRow.get(i-1).split(":", 3);
+                String country = arrOfStr[0];
+                String port = arrOfStr[1];
+                String month = arrOfStr[2];
+                BigDecimal value = eachValueRow.get(i);
+                if (!jsonYearObject.has(country)){ //country not inside yet
+                    jsonYearObject.put(country,generateJSONObject().put(port,generateJSONObject().put(month,value)));
+                    continue;
+                }
+                JSONObject jsonPortObject = jsonYearObject.getJSONObject(country);
+                if (!jsonPortObject.has(port)){ //port not inside
+                    jsonPortObject.put(port,generateJSONObject().put(month,value));
+                    continue;
+                }
+                jsonPortObject.getJSONObject(port).put(month,value); //add in
+            }
+            jsonProductObject.put(currentYear,jsonYearObject);
+        }
+//        int spacesToIndentEachLevel = 4;
+//        System.out.println(jsonProductObject.toString(spacesToIndentEachLevel));
+        return jsonProductObject;
+    }
+
+    public static void writeJsonObjToFile(JSONObject jsonObj, String filePathAndName ) {
+        // File outFile = new File(filePathAndName);
+        try ( FileWriter fw = new FileWriter(filePathAndName) ) {
+            // FileWriter fw = new FileWriter(filePathAndName);
+            System.out.println("Printing now \n ---------------\n");
+            System.out.println(jsonObj.toString());
+            fw.write(jsonObj.toString(4));
+            // fw.flush();
+            System.out.println("Successfully written json object to json file");
+        } catch (IOException e) {
+            System.out.println("filepath + filename provided is a directory or file cannot be created in directory");
+        }
+
     }
 }
