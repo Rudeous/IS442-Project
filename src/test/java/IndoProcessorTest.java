@@ -5,6 +5,6 @@ import selenium.HSCodes;
 public class IndoProcessorTest {
     @Test
     void Test() throws InterruptedException {
-        IndoProcessor.process();
+        IndoProcessor.processAll();
     }
 }
