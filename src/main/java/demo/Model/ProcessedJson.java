@@ -13,7 +13,7 @@ public class ProcessedJson {
     @JsonProperty("PT_IMPORT_2018-19")
     private Sheet sheet18_19;
 
-    @JsonProperty("PT_IMPORT_2021-22")
+    @JsonProperty("PT_import")
     private Sheet sheet21_22;
 
     @JsonProperty("PT_IMPORT_2020-21")

@@ -98,10 +98,6 @@ public class MainJob {
             InputStream inputStream = new FileInputStream(
                     new File("src/main/resources/processedJSON.json"));
             TypeReference<ProcessedJson> typeReference = new TypeReference<ProcessedJson>() {
-                @Override
-                public Type getType() {
-                    return super.getType();
-                }
             };
             ProcessedJson processedJson = mapper.readValue(inputStream, typeReference);
             for (Product prod: processedJson.getSheet19_20().getExports()) {
