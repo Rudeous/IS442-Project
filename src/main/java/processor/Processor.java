@@ -131,8 +131,11 @@ public class Processor {
                 if (cell.getColumnIndex() == 0) {
                     rowKey = cell.getStringCellValue(); // first column not needed
                     rowKey = rowKey.replaceAll("[^a-zA-Z0-9/ ]", "");
+                    System.out.println(cell.getCellType());
+                    System.out.println(rowKey);
                     continue;
                 }
+
                 switch (cell.getCellType()) {
                     case BLANK:
                         rowKey = "";
@@ -151,6 +154,7 @@ public class Processor {
             if (rowKey.equals("")) {
                 continue; // row is irrelevant -> don't add to json arr
             }
+            impJsonObj.put("type", rowKey);
             impJsonObj.put(rowKey, rowArrList);
             jsonArr.put(impJsonObj);
         }
