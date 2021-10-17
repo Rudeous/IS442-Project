@@ -40,8 +40,4 @@ public class Product {
     }
 
 
-//    TODO: create Product class for each Oil Product
-//     or change the json to be a ["Crude Oil", [values]]
-//     instead of {"Crude Oil": [values]}
-
 }

@@ -9,7 +9,6 @@ import java.util.List;
 public class PetCoke extends Product {
 
     // using JsonAlias instead of JsonProperty because JsonAlias allows deserialization for multiple names
-    // maybe should change all to JsonAlias because JsonProperty is for serialization/deserialization
 
     @JsonProperty("PetCoke")
     @JsonAlias({"Petcoke", "Petcoke / CBFS"})
