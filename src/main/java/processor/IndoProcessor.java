@@ -7,6 +7,7 @@ import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.util.Iterator;
 
+import org.apache.commons.io.comparator.LastModifiedFileComparator;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -25,6 +26,16 @@ import java.io.*;
 public class IndoProcessor {
 
     public static void processAll(){
+        java.io.File dir =
+                new java.io.File(System.getProperty("user.dir")+"\\src\\main\\resources\\indonesia\\");
+        java.io.File[] files = dir.listFiles();
+
+        //Sort files in ascending order base on last modification date
+        assert files != null;
+        Arrays.sort(files, LastModifiedFileComparator.LASTMODIFIED_COMPARATOR);
+        String folderName = files[files.length-1].getAbsolutePath(); //get folder name
+
+
         ArrayList<String> fileNames = HSCodes.getExcelFileNames();
         String importExportFlag = "";
         JSONObject finalJSONFile = generateJSONObject();
@@ -32,7 +43,7 @@ public class IndoProcessor {
             String[] arrOfStr = fileName.split("_", 2);
             String type = arrOfStr[0]; //import or export
             String productGroup = arrOfStr[1];
-            JSONObject productGroupJsonObject = process(fileName);
+            JSONObject productGroupJsonObject = process(fileName,folderName);
             if (finalJSONFile.has(type)){
                 finalJSONFile.getJSONObject(type).put(productGroup,productGroupJsonObject);
             }
@@ -41,7 +52,7 @@ public class IndoProcessor {
             }
         }
         printJson(finalJSONFile);
-        writeJsonObjToFile(finalJSONFile,"./src/main/resources/indonesiaDataset.json");
+        writeJsonObjToFile(finalJSONFile,folderName+"\\indonesiaDataset.json");
     }
 
     public static void printJson(JSONObject jsonObj){
@@ -49,13 +60,12 @@ public class IndoProcessor {
         System.out.println(jsonObj.toString(spacesToIndentEachLevel));
     }
 
-    public static JSONObject process(String productFile)
+    public static JSONObject process(String productFile, String folderName)
     {
         try
         {
-            FileInputStream file = new FileInputStream(new File(System.getProperty("user.dir")+"\\src\\main" +
-                    "\\resources\\testingexcel\\resources\\"+productFile+".xls"));
-
+            FileInputStream file = new FileInputStream(new File(folderName+"\\"+productFile+".xls"));
+            System.out.println("reading "+folderName);
             //Create Workbook instance holding reference to .xlsx file
             HSSFWorkbook workbook = new HSSFWorkbook(file);
 

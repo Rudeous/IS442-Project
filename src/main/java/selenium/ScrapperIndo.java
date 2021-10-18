@@ -1,5 +1,6 @@
 package selenium;
 
+import org.bouncycastle.asn1.cms.TimeStampAndCRL;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -9,8 +10,16 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.JavascriptExecutor;
 import processor.FileFormat;
 
+import java.io.File;
+import java.sql.Timestamp;
 import java.time.Year;
 import java.util.*;
+
+//This java class will:
+//- scrape indonesia website and download excel files from 2017 onwards BY product group
+//- rename file names into import/export_productgroup
+//- fix file format to .xls
+
 
 public class ScrapperIndo {
 
@@ -25,12 +34,28 @@ public class ScrapperIndo {
     }
 
     public static void ScrapeIndo() throws InterruptedException {
+        //Folder Name for putting the scrapped excel files
+        String timestamp = new Timestamp(System.currentTimeMillis()).toString();
+        String timeStampFolderName = timestamp.substring(0,timestamp.length()-4).replaceAll(":","-").replaceAll(" ",
+                "__");
+
+        //create folder to store downloads
+        File theDir = new File(System.getProperty("user.dir")+"\\src\\main\\resources\\indonesia\\"+timeStampFolderName);
+        if (!theDir.exists()){
+            theDir.mkdirs();
+        }
+        else{
+            File anotherDir = new File(System.getProperty("user.dir")+"\\src\\main\\resources\\indonesia\\"+timeStampFolderName+"(2)");
+            anotherDir.mkdirs();
+        }
+
         // Set the path of the driver to driver executable.
         System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir")+"\\src\\main\\resources\\chromedriver.exe"); //relative path
         HashMap<String, Object> chromePrefs = new HashMap<String, Object>();
         chromePrefs.put("profile.default_content_settings.popups", 0);
         chromePrefs.put("download.default_directory",
-                System.getProperty("user.dir")+"\\src\\main\\resources\\indonesia"); //specify relative download path
+                System.getProperty("user.dir")+"\\src\\main\\resources\\indonesia\\"+timeStampFolderName); //specify relative
+        // download path
         ChromeOptions options = new ChromeOptions();
         options.setExperimentalOption("prefs", chromePrefs);
         options.addArguments("--headless");
@@ -122,8 +147,8 @@ public class ScrapperIndo {
             System.out.println("Web Driver closing");
             driver.close();
             //rename files to product group
-            FileFunction.renameFiles();
-            FileFormat.change_file_format();
+            FileFunction.renameFiles(timeStampFolderName); //todo
+            FileFormat.change_file_format(timeStampFolderName);//todo
         }
 
     }
