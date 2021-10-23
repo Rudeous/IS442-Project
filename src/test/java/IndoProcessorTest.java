@@ -1,9 +1,9 @@
 import org.junit.jupiter.api.Test;
 import processor.IndoProcessor;
-import selenium.HSCodes;
+import scrapers.HSCodes;
 
 public class IndoProcessorTest {
-    @Test
+    // @Test
     void Test() throws InterruptedException {
         IndoProcessor.process();
     }

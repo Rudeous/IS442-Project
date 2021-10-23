@@ -5,11 +5,11 @@ import com.jacob.com.ComThread;
 import com.jacob.com.Dispatch;
 import com.jacob.com.Variant;
 
+import scrapers.HSCodes;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-
-import selenium.HSCodes;
 import java.util.concurrent.TimeUnit;
 
 
