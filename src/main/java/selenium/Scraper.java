@@ -23,9 +23,9 @@ public class Scraper {
         //System.setProperty("webdriver.chrome.driver", new File("./src/test/resources/drivers/chromedriver.exe").getCanonicalPath());
 
         // config
-        String currentPath = System.getProperty("user.dir");
-        String chromePath = currentPath + "\\src\\main\\resources\\chromedriver.exe";
-        String dlPath = currentPath + "\\src\\main\\resources";
+        // String currentPath = System.getProperty("user.dir");
+        String chromePath = "src/main/resources/chromedriver.exe";
+        String dlPath = "/src/main/resources";
         // System.out.println(currentPath+"\\src\\main\\resources\\chromedriver.exe");
         System.setProperty("webdriver.chrome.driver", chromePath);
         ChromeOptions chromeOptions = new ChromeOptions();
