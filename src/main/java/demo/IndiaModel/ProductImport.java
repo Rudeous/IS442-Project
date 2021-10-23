@@ -1,4 +1,4 @@
-package demo.Model;
+package demo.IndiaModel;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

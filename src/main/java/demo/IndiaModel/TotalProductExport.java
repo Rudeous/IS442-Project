@@ -1,20 +1,20 @@
-package demo.Model;
+package demo.IndiaModel;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ATF extends Product {
+public class TotalProductExport extends Product {
 
-    @JsonProperty("ATF")
+    @JsonProperty("TOTAL  PRODUCT EXPORT")
     private ArrayList<Integer> valuesPerMonthList;
 
-    public ATF(ArrayList<Integer> valuesPerMonthList) {
+    public TotalProductExport(ArrayList<Integer> valuesPerMonthList) {
         this.valuesPerMonthList = valuesPerMonthList;
     }
 
-    public ATF() {
+    public TotalProductExport() {
     }
 
     public void setValuesPerMonthList(ArrayList<Integer> valuesPerMonthList) {

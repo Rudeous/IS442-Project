@@ -1,22 +1,20 @@
-package demo.Model;
+package demo.IndiaModel;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Naphtha extends Product {
+public class LDO extends Product {
 
-    @JsonProperty("Naphtha")
-    @JsonAlias(" Naphtha")
+    @JsonProperty("LDO")
     private ArrayList<Integer> valuesPerMonthList;
 
-    public Naphtha(ArrayList<Integer> valuesPerMonthList) {
+    public LDO(ArrayList<Integer> valuesPerMonthList) {
         this.valuesPerMonthList = valuesPerMonthList;
     }
 
-    public Naphtha() {
+    public LDO() {
     }
 
     public void setValuesPerMonthList(ArrayList<Integer> valuesPerMonthList) {

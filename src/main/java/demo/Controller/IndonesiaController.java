@@ -4,17 +4,16 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import demo.IndonesiaModel.ProcessedJson;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import demo.Model.*;
 
 import java.io.*;
-import java.util.ArrayList;
 
 @Controller
-@RequestMapping("/demo")
-public class MyController {
+@RequestMapping("/indonesia")
+public class IndonesiaController {
 
 	@RequestMapping("/import1920")
 	public String showImport1920(Model model) {
@@ -22,7 +21,7 @@ public class MyController {
 		try {
 			ObjectMapper mapper = new ObjectMapper();
 			InputStream inputStream = new FileInputStream(
-					new File("src/main/resources/processedJSON.json"));
+					new File("src/main/resources/indonesiaDataset.json"));
 			TypeReference<ProcessedJson> typeReference = new TypeReference<ProcessedJson>() {
 			};
 			ProcessedJson processedJson = mapper.readValue(inputStream, typeReference);
@@ -32,6 +31,8 @@ public class MyController {
 //                    System.out.println(monthly);
 //                }
 //            }
+//			System.out.println("MAPPED");
+//			System.out.println(processedJson.getExports().getCondensates().getYear2017().getAustralia().getMuntok().getJune());
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
@@ -42,7 +43,7 @@ public class MyController {
 			e.printStackTrace();
 		}
 
-		return "import1920"; // name of HTML file
+		return "test"; // name of HTML file
 	}
 
 	@RequestMapping("/export1920")

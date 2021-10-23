@@ -1,20 +1,22 @@
-package demo.Model;
+package demo.IndiaModel;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FuelOil extends Product {
+public class Naphtha extends Product {
 
-    @JsonProperty("Fuel Oil")
+    @JsonProperty("Naphtha")
+    @JsonAlias(" Naphtha")
     private ArrayList<Integer> valuesPerMonthList;
 
-    public FuelOil(ArrayList<Integer> valuesPerMonthList) {
+    public Naphtha(ArrayList<Integer> valuesPerMonthList) {
         this.valuesPerMonthList = valuesPerMonthList;
     }
 
-    public FuelOil() {
+    public Naphtha() {
     }
 
     public void setValuesPerMonthList(ArrayList<Integer> valuesPerMonthList) {

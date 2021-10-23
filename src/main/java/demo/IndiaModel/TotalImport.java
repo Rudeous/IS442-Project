@@ -1,22 +1,20 @@
-package demo.Model;
+package demo.IndiaModel;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class LOBS extends Product {
+public class TotalImport extends Product {
 
-    @JsonProperty("LOBS/ Lube Oil")
-    @JsonAlias("LOBS/ Lube oil")
+    @JsonProperty("TOTAL IMPORT")
     private ArrayList<Integer> valuesPerMonthList;
 
-    public LOBS(ArrayList<Integer> valuesPerMonthList) {
+    public TotalImport(ArrayList<Integer> valuesPerMonthList) {
         this.valuesPerMonthList = valuesPerMonthList;
     }
 
-    public LOBS() {
+    public TotalImport() {
     }
 
     public void setValuesPerMonthList(ArrayList<Integer> valuesPerMonthList) {

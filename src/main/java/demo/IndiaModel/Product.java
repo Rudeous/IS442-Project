@@ -1,11 +1,9 @@
-package demo.Model;
+package demo.IndiaModel;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import org.openqa.selenium.json.Json;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @JsonTypeInfo(

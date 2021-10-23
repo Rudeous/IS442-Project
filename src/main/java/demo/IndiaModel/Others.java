@@ -1,20 +1,20 @@
-package demo.Model;
+package demo.IndiaModel;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MS extends Product {
+public class Others extends Product {
 
-    @JsonProperty("MS")
+    @JsonProperty("Others")
     private ArrayList<Integer> valuesPerMonthList;
 
-    public MS(ArrayList<Integer> valuesPerMonthList) {
+    public Others(ArrayList<Integer> valuesPerMonthList) {
         this.valuesPerMonthList = valuesPerMonthList;
     }
 
-    public MS() {
+    public Others() {
     }
 
     public void setValuesPerMonthList(ArrayList<Integer> valuesPerMonthList) {

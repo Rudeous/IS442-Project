@@ -1,20 +1,20 @@
-package demo.Model;
+package demo.IndiaModel;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class HSD extends Product {
+public class LPG extends Product {
 
-    @JsonProperty("HSD")
+    @JsonProperty("LPG")
     private ArrayList<Integer> valuesPerMonthList;
 
-    public HSD(ArrayList<Integer> valuesPerMonthList) {
+    public LPG(ArrayList<Integer> valuesPerMonthList) {
         this.valuesPerMonthList = valuesPerMonthList;
     }
 
-    public HSD() {
+    public LPG() {
     }
 
     public void setValuesPerMonthList(ArrayList<Integer> valuesPerMonthList) {

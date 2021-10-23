@@ -1,20 +1,22 @@
-package demo.Model;
+package demo.IndiaModel;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SKO extends Product {
+public class LOBS extends Product {
 
-    @JsonProperty("SKO")
+    @JsonProperty("LOBS/ Lube Oil")
+    @JsonAlias("LOBS/ Lube oil")
     private ArrayList<Integer> valuesPerMonthList;
 
-    public SKO(ArrayList<Integer> valuesPerMonthList) {
+    public LOBS(ArrayList<Integer> valuesPerMonthList) {
         this.valuesPerMonthList = valuesPerMonthList;
     }
 
-    public SKO() {
+    public LOBS() {
     }
 
     public void setValuesPerMonthList(ArrayList<Integer> valuesPerMonthList) {
