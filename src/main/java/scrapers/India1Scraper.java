@@ -5,16 +5,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.SessionNotCreatedException;
-import org.openqa.selenium.remote.RemoteWebDriver;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-import java.io.IOException;
-import java.util.ArrayList;
 
 import java.util.*;
 
@@ -34,6 +26,7 @@ public class India1Scraper {
         String chromeVer = "95";
         WebDriver driver = null;
         try {
+            System.out.println(ChromeOS.OSDetector());
             String chromePath = "src/main/resources/chromedrivers/" + chromeVer + "/" + ChromeOS.OSDetector();
             System.out.println(chromePath);
             System.setProperty("webdriver.chrome.driver", chromePath);

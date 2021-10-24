@@ -7,8 +7,6 @@ import org.openqa.selenium.SessionNotCreatedException;
 
 import scrapers.*;
 
-
-
 public class scraperTest {
     @Test
     void Test() throws InterruptedException {

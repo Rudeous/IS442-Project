@@ -7,6 +7,12 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.JavascriptExecutor;
+
+
+// import org.openqa.selenium.chrome.ChromeDriver;
+// import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.SessionNotCreatedException;
+
 import processor.FileFormat;
 
 import java.time.Year;
@@ -30,13 +36,31 @@ public class ScrapperIndo {
         HashMap<String, Object> chromePrefs = new HashMap<String, Object>();
         chromePrefs.put("profile.default_content_settings.popups", 0);
         chromePrefs.put("download.default_directory",
-                System.getProperty("user.dir")+"\\src\\main\\resources\\indonesia"); //specify relative download path
+                "src/main/resources/indonesia"); //specify relative download path
         ChromeOptions options = new ChromeOptions();
         options.setExperimentalOption("prefs", chromePrefs);
         options.addArguments("--headless");
         options.addArguments("--window-size=1920,1080");
         // options.addArguments("--maximise");
-        WebDriver driver = new ChromeDriver(options); // Create a Chrome Web Driver
+
+        // configure chromedriver of correct os and version to use
+        String chromeVer = "95"; // default
+        WebDriver driver = null;
+        try {
+            String chromePath = "src/main/resources/chromedrivers/" + chromeVer + "/" + ChromeOS.OSDetector();
+            System.out.println(chromePath);
+            System.setProperty("webdriver.chrome.driver", chromePath);
+            driver = new ChromeDriver(options);
+        } catch(SessionNotCreatedException e){
+            String errorMsg = e.getMessage();
+            chromeVer = ChromeOS.getVersionNumStr(errorMsg);
+            String chromePath = "src/main/resources/chromedrivers/" + chromeVer + ChromeOS.OSDetector();
+            System.out.println(chromePath);
+            System.setProperty("webdriver.chrome.driver", chromePath);
+            driver = new ChromeDriver(options);
+        }
+
+        // WebDriver driver = new ChromeDriver(options); // Create a Chrome Web Driver
         // driver.manage().window().maximize();
         try{
             driver.get("https://www.bps.go.id/exim"); //navigate to website

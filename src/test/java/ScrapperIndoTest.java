@@ -4,7 +4,7 @@ import scrapers.HSCodes;
 import scrapers.ScrapperIndo;
 
 public class ScrapperIndoTest {
-    // @Test
+    @Test
     void Test() throws InterruptedException {
         ScrapperIndo.ScrapeIndo();
     }

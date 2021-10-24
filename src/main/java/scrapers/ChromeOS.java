@@ -8,6 +8,7 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 public class ChromeOS {
     public static String OSDetector() {
         String os = System.getProperty("os.name").toLowerCase();
+        System.out.println(os);
         if (os.contains("win")) {
             return "Win.exe";
         } else if (os.contains("nux") || os.contains("nix")) {
