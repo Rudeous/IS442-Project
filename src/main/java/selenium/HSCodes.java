@@ -78,18 +78,19 @@ public class HSCodes {
 
     public static ArrayList<String> getMonthNames(){
         ArrayList<String> hello = new ArrayList<>();
-        hello.add("January");
-        hello.add("February");
-        hello.add("March");
-        hello.add("April");
-        hello.add("May");
-        hello.add("June");
-        hello.add("July");
-        hello.add("August");
-        hello.add("September");
-        hello.add("October");
-        hello.add("November");
-        hello.add("December");
+        hello.add("");
+        hello.add("JANUARY");
+        hello.add("FEBRUARY");
+        hello.add("MARCH");
+        hello.add("APRIL");
+        hello.add("MAY");
+        hello.add("JUNE");
+        hello.add("JULY");
+        hello.add("AUGUST");
+        hello.add("SEPTEMBER");
+        hello.add("OCTOBER");
+        hello.add("NOVEMBER");
+        hello.add("DECEMBER");
         return hello;
     }
 }
