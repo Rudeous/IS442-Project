@@ -34,8 +34,9 @@ public class FileFunction {
             }
         }
 
-        public static File[] getFiles(){
-            java.io.File dir = new java.io.File(System.getProperty("user.dir")+"\\src\\main\\resources\\indonesia");
+        public static File[] getFiles(String folderName){
+            java.io.File dir =
+                    new java.io.File(System.getProperty("user.dir")+"\\src\\main\\resources\\indonesia\\"+folderName);
             java.io.File[] files = dir.listFiles();
 
             //Sort files in ascending order base on last modification date
@@ -47,21 +48,20 @@ public class FileFunction {
             return files;
         }
 
-        public static void renameFiles(){
-            File[] sortedFiles = getFiles();
+        public static void renameFiles(String folderName){
+            File[] sortedFiles = getFiles(folderName);
             ArrayList<String> productList = HSCodes.getProductNames();
             for (int i=0;i<sortedFiles.length-7;i++) {
                 System.out.println(sortedFiles[i].getAbsolutePath());
                 rename(sortedFiles[i].getAbsolutePath(),
-                        System.getProperty("user.dir")+"\\src\\main\\resources\\indonesia\\EXPORT_"+productList.get(i)+
+                        System.getProperty("user.dir")+"\\src\\main\\resources\\indonesia\\"+folderName+"\\EXPORT_"+productList.get(i)+
                                 ".xls");
             }
             int productCodeIndex=0;
             for (int i=7;i<sortedFiles.length;i++) {
                 System.out.println(sortedFiles[i].getName());
                 rename(sortedFiles[i].getAbsolutePath(),
-                        System.getProperty("user.dir")+"\\src\\main\\resources\\indonesia\\IMPORT_"+productList.get(productCodeIndex)+
-                                ".xls");
+                        System.getProperty("user.dir")+"\\src\\main\\resources\\indonesia\\"+folderName+"\\IMPORT_"+productList.get(productCodeIndex)+".xls");
                 productCodeIndex++;
             }
         }

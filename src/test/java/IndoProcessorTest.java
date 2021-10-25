@@ -5,6 +5,6 @@ import scrapers.HSCodes;
 public class IndoProcessorTest {
     @Test
     void Test() throws InterruptedException {
-        IndoProcessor.process();
+        IndoProcessor.processAll();
     }
 }

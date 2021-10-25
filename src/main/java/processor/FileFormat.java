@@ -14,24 +14,23 @@ import java.util.concurrent.TimeUnit;
 
 
 public class FileFormat {
-    public static void call(String fileName) {
+    public static void call(String fileName, String folderName) {
         String script = System.getProperty("user.dir")+"\\src\\main\\resources\\change_file_format.vbs ";
         String filepath =
-                System.getProperty("user.dir")+"\\src\\main\\resources\\indonesia\\"+fileName+
-                        " ";
+                System.getProperty("user.dir")+"\\src\\main\\resources\\indonesia\\"+folderName+"\\"+fileName+" ";
         try {
-            System.out.println("Converting file format of"+fileName+".xls");
-            Runtime.getRuntime().exec ( "wscript " + script + filepath );
+            System.out.println("Converting file format of "+filepath);
+            Runtime.getRuntime().exec( "wscript " + script + filepath );
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
 
-    public static void change_file_format() throws InterruptedException {
+    public static void change_file_format(String folderName) throws InterruptedException {
         ArrayList<String> fileNames = HSCodes.getExcelFileNames();
         for (String fileName : fileNames){
-            call(fileName);
+            call(fileName, folderName);
         }
         TimeUnit.SECONDS.sleep(20);
     }
