@@ -1,10 +1,15 @@
-import selenium.*;
-import org.junit.jupiter.api.Test;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
+import org.apache.xpath.SourceTree;
+import org.junit.jupiter.api.Test;
+import org.openqa.selenium.SessionNotCreatedException;
+
+import scrapers.*;
 
 public class scraperTest {
-    // @Test
+    @Test
     void Test() throws InterruptedException {
-        Scraper.seleniumScrapeIndia1();
+        India1Scraper.scrapeIndia1();
     }
 }
