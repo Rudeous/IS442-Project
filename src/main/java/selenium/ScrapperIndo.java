@@ -1,5 +1,6 @@
 package selenium;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.bouncycastle.asn1.cms.TimeStampAndCRL;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -33,6 +34,24 @@ public class ScrapperIndo {
         }
     }
 
+    private static WebDriver getChromeDriver(String timeStampFolderName){
+        // Set the path of the driver to driver executable.
+//        System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir")+"\\src\\main\\resources\\chromedriver.exe");
+        HashMap<String, Object> chromePrefs = new HashMap<String, Object>();
+        chromePrefs.put("profile.default_content_settings.popups", 0);
+        chromePrefs.put("download.default_directory",
+                System.getProperty("user.dir")+"\\src\\main\\resources\\indonesia\\"+timeStampFolderName); //specify relative
+        // download path
+        ChromeOptions options = new ChromeOptions();
+        options.setExperimentalOption("prefs", chromePrefs);
+        options.addArguments("--headless");
+        options.addArguments("--window-size=1920,1080");
+        // options.addArguments("--maximise");
+        WebDriverManager.chromedriver().setup();
+        return new ChromeDriver(options); // Create a Chrome Web Driver
+        // driver.manage().window().maximize();
+    }
+
     public static void ScrapeIndo() throws InterruptedException {
         //Folder Name for putting the scrapped excel files
         String timestamp = new Timestamp(System.currentTimeMillis()).toString();
@@ -49,19 +68,21 @@ public class ScrapperIndo {
             anotherDir.mkdirs();
         }
 
-        // Set the path of the driver to driver executable.
-        System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir")+"\\src\\main\\resources\\chromedriver.exe"); //relative path
-        HashMap<String, Object> chromePrefs = new HashMap<String, Object>();
-        chromePrefs.put("profile.default_content_settings.popups", 0);
-        chromePrefs.put("download.default_directory",
-                System.getProperty("user.dir")+"\\src\\main\\resources\\indonesia\\"+timeStampFolderName); //specify relative
-        // download path
-        ChromeOptions options = new ChromeOptions();
-        options.setExperimentalOption("prefs", chromePrefs);
-        options.addArguments("--headless");
-        options.addArguments("--window-size=1920,1080");
-        // options.addArguments("--maximise");
-        WebDriver driver = new ChromeDriver(options); // Create a Chrome Web Driver
+        WebDriver driver = getChromeDriver(timeStampFolderName);
+
+//        // Set the path of the driver to driver executable.
+//        System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir")+"\\src\\main\\resources\\chromedriver.exe"); //relative path
+//        HashMap<String, Object> chromePrefs = new HashMap<String, Object>();
+//        chromePrefs.put("profile.default_content_settings.popups", 0);
+//        chromePrefs.put("download.default_directory",
+//                System.getProperty("user.dir")+"\\src\\main\\resources\\indonesia\\"+timeStampFolderName); //specify relative
+//        // download path
+//        ChromeOptions options = new ChromeOptions();
+//        options.setExperimentalOption("prefs", chromePrefs);
+//        options.addArguments("--headless");
+//        options.addArguments("--window-size=1920,1080");
+//        // options.addArguments("--maximise");
+//        WebDriver driver = new ChromeDriver(options); // Create a Chrome Web Driver
         // driver.manage().window().maximize();
         try{
             driver.get("https://www.bps.go.id/exim"); //navigate to website
