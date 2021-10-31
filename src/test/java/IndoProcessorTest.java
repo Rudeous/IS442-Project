@@ -1,6 +1,6 @@
 import org.junit.jupiter.api.Test;
 import processor.IndoProcessor;
-import scrapers.HSCodes;
+import selenium.HSCodes;
 
 public class IndoProcessorTest {
     @Test

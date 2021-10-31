@@ -1,6 +1,6 @@
 import org.junit.jupiter.api.Test;
 import processor.IndoProcessor;
-import scrapers.ScrapperIndo;
+import selenium.ScrapperIndo;
 
 public class ScraperIndoAndIndoProcessorTest {
     @Test

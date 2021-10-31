@@ -1,6 +1,5 @@
 import org.junit.jupiter.api.Test;
-
-import scrapers.FileFunction;
+import selenium.FileFunction;
 
 public class FileFunctionTest {
     @Test

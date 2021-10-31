@@ -1,11 +1,10 @@
+import selenium.*;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.SessionNotCreatedException;
 
-import scrapers.*;
 
 public class scraperTest {
-    @Test
+    // @Test
     void Test() throws InterruptedException {
-        India1Scraper.scrapeIndia1();
+        Scraper.seleniumScrapeIndia1();
     }
 }
