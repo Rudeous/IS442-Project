@@ -1,11 +1,11 @@
-import selenium.*;
+import scrapers.*;
 
 
 public class MainJob {
     public static void main(String[] args) throws InterruptedException {
 
-//        Scraper.seleniumScrapeIndia1();
-//        ScrapperIndo.ScrapeIndo();
+        India1Scraper.scrapeIndia1();
+        ScrapperIndo.ScrapeIndo();
     }
 
 }
