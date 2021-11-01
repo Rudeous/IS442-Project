@@ -1,13 +1,11 @@
-package selenium;
+package scrappers;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.bouncycastle.asn1.cms.TimeStampAndCRL;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.*;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.JavascriptExecutor;
 import processor.FileFormat;
 

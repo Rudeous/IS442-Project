@@ -1,6 +1,5 @@
 import org.junit.jupiter.api.Test;
-import selenium.HSCodes;
-import selenium.ScrapperIndo;
+import scrappers.ScrapperIndo;
 
 public class ScrapperIndoTest {
     @Test

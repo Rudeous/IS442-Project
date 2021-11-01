@@ -1,10 +1,9 @@
-package selenium;
+package scrappers;
 
 import org.apache.commons.io.comparator.LastModifiedFileComparator;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 
 public class FileFunction {
         public static void rename(String originalPath, String finalPath){

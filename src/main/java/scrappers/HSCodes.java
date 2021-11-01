@@ -1,4 +1,4 @@
-package selenium;
+package scrappers;
 import java.util.*;
 
 public class HSCodes {

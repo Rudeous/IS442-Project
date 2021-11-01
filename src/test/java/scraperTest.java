@@ -1,5 +1,4 @@
-import selenium.*;
-import org.junit.jupiter.api.Test;
+import scrappers.*;
 
 
 public class scraperTest {
