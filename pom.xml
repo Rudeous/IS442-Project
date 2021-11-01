@@ -135,6 +135,11 @@
       <artifactId>bootstrap</artifactId>
       <version>4.0.0-2</version>
     </dependency>
+    <dependency>
+      <groupId>io.github.bonigarcia</groupId>
+      <artifactId>webdrivermanager</artifactId>
+      <version>4.0.0</version>
+    </dependency>
 
   </dependencies>
 
