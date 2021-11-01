@@ -1,8 +1,4 @@
-<<<<<<< HEAD:src/main/java/scrapers/India1Scraper.java
 package scrapers;
-=======
-package demo.selenium;
->>>>>>> Thymeleaf,-Chart.js:src/main/java/demo/selenium/Scraper.java
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -11,10 +7,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.SessionNotCreatedException;
 
-<<<<<<< HEAD:src/main/java/scrapers/India1Scraper.java
-
-=======
->>>>>>> Thymeleaf,-Chart.js:src/main/java/demo/selenium/Scraper.java
 import java.util.*;
 
 
