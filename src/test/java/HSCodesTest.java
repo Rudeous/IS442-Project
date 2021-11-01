@@ -1,6 +1,5 @@
 import org.junit.jupiter.api.Test;
-
-import scrapers.HSCodes;
+import scrappers.HSCodes;
 
 public class HSCodesTest {
     @Test

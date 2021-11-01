@@ -26,7 +26,3 @@ hs_err_pid*
 .idea/workspace.xml
 *.xls
 src/main/resources/indonesia/EXPORT_condensates.xls
-.classpath
-.classpath
-.settings/org.eclipse.core.resources.prefs
-.settings/org.eclipse.jdt.core.prefs

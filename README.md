@@ -20,12 +20,7 @@ https://www.petrikainulainen.net/programming/testing/junit-5-tutorial-running-un
    - class name must end in "Test", "Tests" or "TestCase"
    - annotate method(s) to be tested with ```@Test```
 3. add resources needed to ```src/test/resources``` if required
-
-### To run all test classes:
-```mvn clean test```
-
-### To run a single desired test class:
-```mvn test -Dtest=<TestClass>#<testMethod> test```
+4. run ```mvn clean test```
 
 
 ### create executable jar containing dependencies 
