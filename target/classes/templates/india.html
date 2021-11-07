@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"></meta>
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<title>Insert title here</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <div>
+        <label for="years">Choose a year:</label>
+
+        <select name="years" id="years" th:onchange="changeChart()">
+            <option th:value="-1" th:selected="-1">--- Select ---</option>
+            <option th:value="1">17-18</option>
+            <option th:value="2">18-19</option>
+            <option th:value="0">19-20</option>
+            <option th:value="4">20-21</option>
+            <option th:value="3">Current</option>
+        </select>
+    </div>
+
+    <div>
+        <label for="importexport">Import/Export:</label>
+
+        <select name="importexport" id="importexport" th:onchange="changeChart()">
+            <option th:value="-1" th:selected="-1">--- Select ---</option>
+            <option th:value="import">Import</option>
+            <option th:value="export">Export</option>
+        </select>
+    </div>
+
+    <canvas id="myChart" width="200" height="100"></canvas>
+
+
+<script th:inline="javascript">
+        var ctx = document.getElementById('myChart').getContext('2d');
+
+        var sheetsArr = [];
+        var months = [];
+        var labelsArr = {
+            "import": [],
+            "export": []
+        };
+        var allValuesArr = {
+            "import": [],
+            "export": []
+        };
+
+        /*<![CDATA[*/
+            var data = /*[[${data}]]*/ 'default';
+        /*]]>*/
+
+        for (var sheet in data) {
+            sheetsArr.push(sheet);
+            var labels = {
+                "import": [],
+                "export": []
+            };
+            var values = {
+                "import": [],
+                "export": []
+            };
+
+            months = data[sheet]["Periods"];
+
+            importArr = data[sheet]["Imports"];
+            exportArr = data[sheet]["Exports"];
+
+            for (var index in importArr) {
+                productArr = importArr[index];
+
+                productName = Object.keys(productArr)[0];
+                labels["import"].push(productName);
+
+                valuesArr = Object.values(productArr)[0];
+                values["import"].push(valuesArr);
+            }
+
+            for (var index in exportArr) {
+                productArr = exportArr[index];
+
+                productName = Object.keys(productArr)[0];
+                labels["export"].push(productName);
+
+                valuesArr = Object.values(productArr)[0];
+                values["export"].push(valuesArr);
+            }
+
+            labelsArr["import"].push(labels["import"]);
+            labelsArr["export"].push(labels["export"]);
+
+            allValuesArr["import"].push(values["import"]);
+            allValuesArr["export"].push(values["export"]);
+
+        }
+
+        console.log(sheetsArr);
+        console.log(labelsArr);
+        console.log(allValuesArr);
+
+
+        var myChart = "";
+
+        function changeChart() {
+
+            <!-- previous chart destroyed to make way for the new chosen chart -->
+            if (myChart != "") {
+                myChart.destroy();
+            }
+
+            <!-- retrieve the user input for the select dropdown -->
+            var yearChoice = document.getElementById("years").value;
+            var importexportChoice = document.getElementById("importexport").value;
+            console.log(yearChoice);
+            console.log(importexportChoice);
+
+            if (yearChoice == -1 || importexportChoice == -1) {
+                return;
+            }
+
+            var chartTitle = sheetsArr[yearChoice].slice(-7);
+            if (chartTitle.slice(4, 5) != "-") {
+                chartTitle = "Current Year";
+            }
+
+
+            var dataSets = [];
+
+            for (i = 0; i < labelsArr[importexportChoice][yearChoice].length; i++) {
+                dataSets.push(
+                    {
+                        label: labelsArr[importexportChoice][yearChoice][i],
+                        data: allValuesArr[importexportChoice][yearChoice][i],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(54, 247, 161, 0.2)',
+                            'rgba(255, 115, 255, 0.2)',
+                            'rgba(250, 137, 115, 0.2)',
+                            'rgba(252, 168, 88, 0.2)',
+                            'rgba(255, 117, 117, 0.2)',
+                            'rgba(127, 227, 250, 0.2)',
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(127, 250, 209, 0.2)',
+                            'rgba(178, 141, 252, 0.2)',
+                            'rgba(168, 255, 236, 0.2)',
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(54, 247, 161, 1)',
+                            'rgba(255, 115, 255, 1)',
+                            'rgba(250, 137, 115, 1)',
+                            'rgba(252, 168, 88, 1)',
+                            'rgba(255, 117, 117, 1)',
+                            'rgba(127, 227, 250, 1)',
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(127, 250, 209, 1)',
+                            'rgba(178, 141, 252, 1)',
+                            'rgba(168, 255, 236, 1)',
+                        ],
+                        borderWidth: 1
+                    }
+                );
+            }
+
+            myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: months,
+                    datasets: dataSets
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: chartTitle
+                        }
+                    }
+                }
+            });
+
+        }
+
+
+        </script>
+</body>
+
+</html>
