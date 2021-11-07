@@ -1,8 +1,5 @@
-
-
-import static org.junit.Assert.assertTrue;
 import com.example.servingwebcontent.repository.IndonesiaRepository;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit test for simple App.
