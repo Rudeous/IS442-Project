@@ -9,7 +9,7 @@ public class ServingWebContentApplication {
     public static void main(String[] args) {
 
         SpringApplication.run(ServingWebContentApplication.class, args);
-        System.out.println("running");
+//        System.out.println("running");
     }
 
 }
