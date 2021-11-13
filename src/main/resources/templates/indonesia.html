@@ -17,57 +17,101 @@
     var months = /*[[${months}]]*/;
     var imports = /*[[${import}]]*/;
     var exports = /*[[${export}]]*/;
-
-    console.log(imports);
-    console.log(exports);
+    var net = /*[[${net}]]*/;
 
     // USER INPUTS
-    var type = imports;
-    var year = "2017";
+    var type = exports;
+    var year = "2017"; // ONLY INPUT FOR NET IMPORTS
 
-    var data = {labels:months, datasets:[]}
-    for (productGroup in imports[year]){
-        var line = {
-            label:productGroup,
-            borderColor: 'rgb(255, 0, 1)',
-            lineTension: 0,
-            fill: false,
-            data:[]
-                }
-        for (month of months){
-            //console.log(imports[year][productGroup])
-            for (month_fullname in imports[year][productGroup]){
-                if (month_fullname.substring(0,3).toLowerCase() == month.toLowerCase()){
-                    //console.log(month_fullname.substring(0,3).toLowerCase())
-                    //console.log(month.toLowerCase())
-                    line["data"].push(imports[year][productGroup][month_fullname])
-                    break
+    if (exports!=null & imports!=null){
+        var data = {labels:months, datasets:[]}
+        for (productGroup in type[year]){
+            var line = {
+                label:productGroup,
+                borderColor: 'rgb(255, 0, 1)',
+                lineTension: 0,
+                fill: false,
+                data:[]
+                    }
+            for (month of months){
+                for (month_fullname in type[year][productGroup]){
+                    if (month_fullname.substring(0,3).toLowerCase() == month.toLowerCase()){
+                        line["data"].push(type[year][productGroup][month_fullname])
+                        break
+                    }
                 }
             }
+            data["datasets"].push(line)
         }
-        data["datasets"].push(line)
-    }
-    console.log(data)
+        console.log(data)
 
 
-    var ctx = document.getElementById("Chart").getContext('2d');
-    var ChartDemo = new Chart(ctx, {
-            type: 'line',
-            // data: {
-            //     labels: months ,
-            //     datasets: [{
-            //         label: "Chart-1",
-            //         borderColor: 'rgb(255, 0, 1)',
-            //         lineTension: 0,
-            //         fill: false,
-            //         //the same manner as described above, only is taken out of the point in the variable expression.
-            //         data: [1,2,3,4,5,6,7,8,9,1,11] ,
-            //     }, ]
-            // },
-            data: data,
-            options: {
-                responsive: true,
-            }
+        var ctx = document.getElementById("Chart").getContext('2d');
+        var ChartDemo = new Chart(ctx, {
+                type: 'line',
+                // data: {
+                //     labels: months ,
+                //     datasets: [{
+                //         label: "Chart-1",
+                //         borderColor: 'rgb(255, 0, 1)',
+                //         lineTension: 0,
+                //         fill: false,
+                //         //the same manner as described above, only is taken out of the point in the variable expression.
+                //         data: [1,2,3,4,5,6,7,8,9,1,11] ,
+                //     }, ]
+                // },
+                data: data,
+                options: {
+                    responsive: true,
+                }
         });
+    }
+
+    if (net!=null){
+        console.log(net);
+        var data = {labels:months, datasets:[]}
+        for (productGroup in net[year]){
+            var line = {
+                label:productGroup,
+                borderColor: 'rgb(255, 0, 1)',
+                lineTension: 0,
+                fill: false,
+                data:[]
+                    }
+            for (month of months){
+                for (month_fullname in net[year][productGroup]){
+                    if (month_fullname.substring(0,3).toLowerCase() == month.toLowerCase()){
+                        line["data"].push(net[year][productGroup][month_fullname])
+                        break
+                    }
+                }
+            }
+            data["datasets"].push(line)
+        }
+        console.log(data)
+
+
+        var ctx = document.getElementById("Chart").getContext('2d');
+        var ChartDemo = new Chart(ctx, {
+                type: 'bar',
+                // data: {
+                //     labels: months ,
+                //     datasets: [{
+                //         label: "Chart-1",
+                //         borderColor: 'rgb(255, 0, 1)',
+                //         lineTension: 0,
+                //         fill: false,
+                //         //the same manner as described above, only is taken out of the point in the variable expression.
+                //         data: [1,2,3,4,5,6,7,8,9,1,11] ,
+                //     }, ]
+                // },
+                data: data,
+                options: {
+                    responsive: true,
+                }
+        });
+    }
+
+    
   </script>
 </html>

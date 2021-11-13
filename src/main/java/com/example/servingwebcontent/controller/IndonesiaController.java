@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.*;
 
 import com.example.servingwebcontent.repository.IndonesiaRepository;
+import com.example.servingwebcontent.service.IndonesiaService;
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,10 +34,6 @@ public class IndonesiaController {
 //                 }
 //             }
         ArrayList<Map<String, Map<String, Map<String, BigDecimal>>>> Types = IndonesiaRepository.getAll();
-        Map<String, String> productGroup = new HashMap<String, String>() {{
-            put("a", "b");
-            put("c", "d");
-        }};
 
         String[] months = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
 
@@ -44,6 +41,18 @@ public class IndonesiaController {
         model.addAttribute("import",Types.get(0));
         model.addAttribute("export",Types.get(1));
         //model.addAttribute("productGroup",productGroup);
+        return "indonesia";
+    }
+
+    @RequestMapping("/net")
+    public String net(Model model) throws IOException {
+        Map<String, Map<String, Map<String, BigDecimal>>> net = IndonesiaService.getNetValues();
+
+        String[] months = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
+
+        model.addAttribute("months",months);
+        model.addAttribute("net",net);
+
         return "indonesia";
     }
 
