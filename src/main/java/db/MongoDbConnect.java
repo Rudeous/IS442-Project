@@ -8,7 +8,6 @@ import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.util.JSON;
-import com.google.gson.JsonObject;
 import com.mongodb.*;
 import org.bson.*;
 import org.json.JSONObject;

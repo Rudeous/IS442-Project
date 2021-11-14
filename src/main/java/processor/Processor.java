@@ -100,8 +100,8 @@ public class Processor {
             Cell cell = cellIterator.next();
             switch (cell.getStringCellValue()) {
                 case "IMPORT/EXPORT":
-                    monthsArrRowNum = cell.getRowIndex();
-                    System.out.println("Row number is " + monthsArrRowNum);
+                    monthsRowNum = cell.getRowIndex();
+                    System.out.println("Row number is " + monthsRowNum);
                     break;
                 case "IMPORT^":
                     importProdStart = cell.getRowIndex() + 1; // import label row not needed
@@ -129,7 +129,7 @@ public class Processor {
         }
 
 
-        sheetJsonObj.put("Periods", getSingleRowString(monthsArrRowNum, sheet) );
+        sheetJsonObj.put("Periods", getSingleRowString(monthsRowNum, sheet) );
         sheetJsonObj.put("Imports", getMultipleRows(importProdStart, importProdEnd, sheet, workbook) );
         sheetJsonObj.put("Exports", getMultipleRows(exportProdStart, exportProdEnd, sheet, workbook) );
         sheetJsonObj.put("Net Import", getSingleRowNumbers(netImportRowNum, sheet) );

@@ -33,3 +33,5 @@ target/classes/mongodb/mongosh-1.1.1-win32-x64/bin/mongocryptd-mongosh.exe
 .vscode*
 .settings\*
 .settings/org.eclipse.jdt.core.prefs
+.vscode/settings.json
+src/main/resources/mongodb/windows/mongod/data/db/*
