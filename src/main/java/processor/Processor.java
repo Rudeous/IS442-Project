@@ -174,7 +174,7 @@ public class Processor {
             if (rowKey.equals("")) {
                 continue; // row is irrelevant -> don't add to json arr
             }
-//            impJsonObj.put("type", rowKey);
+            impJsonObj.put("type", rowKey);
             impJsonObj.put(rowKey, rowArrList);
             jsonArr.put(impJsonObj);
         }
