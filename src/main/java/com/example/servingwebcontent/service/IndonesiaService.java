@@ -18,6 +18,11 @@ import java.util.Map;
 @Service
 public class IndonesiaService {
 
+    public static ArrayList<Map<String, Map<String, Map<String, Map<String,BigDecimal>>>>> getByOriginAndDestination() throws IOException {
+        ArrayList<Map<String, Map<String, Map<String, Map<String,BigDecimal>>>>> Types = IndonesiaRepository.additional();
+        return Types;
+    }
+
     public static Map<String, Map<String, Map<String, BigDecimal>>> getNetValues() throws IOException {
 
         ArrayList<Map<String, Map<String, Map<String, BigDecimal>>>> Types = IndonesiaRepository.getAll();

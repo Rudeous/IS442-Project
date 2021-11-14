@@ -56,5 +56,20 @@ public class IndonesiaController {
         return "indonesia";
     }
 
+    @RequestMapping("/byOriginAndDestination")
+    public String byOriginAndDestination(Model model) throws IOException {
+        ArrayList<Map<String, Map<String, Map<String, Map<String,BigDecimal>>>>> byOriginAndDestination =
+                IndonesiaService.getByOriginAndDestination();
+
+        String[] months = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
+
+        model.addAttribute("months",months);
+        model.addAttribute("byOriginAndDestinationImports",byOriginAndDestination.get(0));
+        model.addAttribute("byOriginAndDestinationExports",byOriginAndDestination.get(1));
+
+        return "indonesia";
+    }
+
+
 }
 

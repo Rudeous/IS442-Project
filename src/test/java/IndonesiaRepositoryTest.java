@@ -12,7 +12,7 @@ public class IndonesiaRepositoryTest
     @Test
     public void main(){
         try{
-            IndonesiaRepository.getAll();
+            IndonesiaRepository.additional();
         }
         catch(Exception e){
             e.printStackTrace();
