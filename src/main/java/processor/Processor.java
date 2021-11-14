@@ -9,6 +9,8 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import db.MongoDbConnect;
+
 //  ASSUMPTIONS
 // - row structure and line positioning remain constant
 
@@ -19,15 +21,36 @@ public class Processor {
     // configurations to specify file object and open file in a workbook to process
     static DataFormatter dataFormatter = new DataFormatter(); // format data in cells
     // static File outputFile = new File("./src/main/resources/India1OilData.json");
-    static JSONObject processedJsonObj = new JSONObject();
-    static int monthsArrRowNum = 0;
+  
+    // static JSONObject processedJsonObj = new JSONObject();
+    static int monthsRowNum = 0;
     static int importProdStart = 0;
     static int importProdEnd = 0;
     static int exportProdStart = 0;
     static int exportProdEnd = 0;
     static int netImportRowNum = 0;
 
-    public static void ProcessIndia1(String xlsPathAndFile) {
+    public static void processIndia1(String[] xlsFilePathList) {
+        JSONObject processedJsonObj = new JSONObject();
+        for (String xlsPathAndFile : xlsFilePathList) {
+            JSONObject xlsJobject = singleXlsToJsonIndia1(xlsPathAndFile); // get JSONobject of each xls file (sheetName:sheetContent)
+            Iterator<String> keys = xlsJobject.keys();
+            
+            while(keys.hasNext()) {
+                String key = keys.next();
+                if (xlsJobject.get(key) instanceof JSONObject) {
+                      // do something with jsonObject here 
+                      processedJsonObj.put(key, xlsJobject.get(key));    
+                }
+                // processedJsonObj.put(key, xlsJobject.get(key));
+            }
+        }
+        // processed and combined sheet details of all india1 xls files -> insert into India1Oil collection
+        MongoDbConnect.insert(processedJsonObj, "IS442", "IndiaOilData");
+    }
+
+    public static JSONObject singleXlsToJsonIndia1(String xlsPathAndFile) {
+        JSONObject processedJsonObj = new JSONObject();
         try {
             FileInputStream file = new FileInputStream(xlsPathAndFile);
             Workbook workbook = new HSSFWorkbook(file); // HSSF for .xls, XSSF for xlsx
@@ -53,12 +76,16 @@ public class Processor {
             }
             workbook.close();
             // finished iterating through every sheet in xls file -> write resultant json obj to json file
-            writeJsonObjToFile(processedJsonObj, "./src/main/resources/processedJSON.json");
+            writeJsonObjToFile(processedJsonObj, "./src/main/resources/processedJSON.txt");
+
+
         } catch (FileNotFoundException e) {
             System.out.printf("File with the filepath %s cannot be found%n", xlsPathAndFile );
         } catch (IOException e) {
             System.out.printf("I/O operations on file %s cannot be executed successfully%n", xlsPathAndFile );
-        }
+        } 
+
+        return processedJsonObj;
     }
 
     static JSONObject processSingleSheet( Sheet sheet, Workbook workbook ) {

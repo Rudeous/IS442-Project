@@ -77,6 +77,7 @@ public class India1Scraper {
         List<WebElement> fileDivList = driver.findElements(By.xpath(String.format("//div[@class='function']//ul[%d]//a", quantityIndex)));
         for(WebElement fileDiv: fileDivList){
             String href = fileDiv.getAttribute("href");
+            href = href.replace("https", "http");
             System.out.println(href);
             driver.get(href);
             Thread.sleep(10000);
