@@ -20,19 +20,20 @@ public class Processor {
     static DataFormatter dataFormatter = new DataFormatter(); // format data in cells
     // static File outputFile = new File("./src/main/resources/India1OilData.json");
     static JSONObject processedJsonObj = new JSONObject();
-    static int monthsRowNum = 0;
+    static int monthsArrRowNum = 0;
     static int importProdStart = 0;
     static int importProdEnd = 0;
     static int exportProdStart = 0;
     static int exportProdEnd = 0;
+    static int netImportRowNum = 0;
 
     public static void ProcessIndia1(String xlsPathAndFile) {
         try {
             FileInputStream file = new FileInputStream(xlsPathAndFile);
             Workbook workbook = new HSSFWorkbook(file); // HSSF for .xls, XSSF for xlsx
 
-            // months to display in monthly time series
-            // json.put("months", new JSONArray("[\"April\",\"May\",\"June\",\"July\",\"August\",\"September\",\"October\",\"November\",\"December\",\"January\",\"February\",\"March\"]"));
+            // monthsArr to display in monthly time series
+            // json.put("monthsArr", new JSONArray("[\"April\",\"May\",\"June\",\"July\",\"August\",\"September\",\"October\",\"November\",\"December\",\"January\",\"February\",\"March\"]"));
 
             // iterate over data in excel sheet
             Iterator<Sheet> sheets = workbook.sheetIterator();
@@ -72,8 +73,8 @@ public class Processor {
             Cell cell = cellIterator.next();
             switch (cell.getStringCellValue()) {
                 case "IMPORT/EXPORT":
-                    monthsRowNum = cell.getRowIndex();
-                    System.out.println("Row number is " + monthsRowNum);
+                    monthsArrRowNum = cell.getRowIndex();
+                    System.out.println("Row number is " + monthsArrRowNum);
                     break;
                 case "IMPORT^":
                     importProdStart = cell.getRowIndex() + 1; // import label row not needed
@@ -90,21 +91,27 @@ public class Processor {
                 case "TOTAL  PRODUCT EXPORT":
                     exportProdEnd = cell.getRowIndex();
                     System.out.println("row end " + exportProdEnd);
+                    break;
+                case "NET IMPORT":
+                    netImportRowNum = cell.getRowIndex();
+                    System.out.println("Row number is " + netImportRowNum);
+                    break;
                 default:
                     continue;
             }
         }
 
 
-        sheetJsonObj.put("Periods", getSingleRow(monthsRowNum, sheet) );
+        sheetJsonObj.put("Periods", getSingleRowString(monthsArrRowNum, sheet) );
         sheetJsonObj.put("Imports", getMultipleRows(importProdStart, importProdEnd, sheet, workbook) );
         sheetJsonObj.put("Exports", getMultipleRows(exportProdStart, exportProdEnd, sheet, workbook) );
+        sheetJsonObj.put("Net Import", getSingleRowNumbers(netImportRowNum, sheet) );
         System.out.println(sheetJsonObj);
         return sheetJsonObj;
     }
 
 
-    static JSONArray getSingleRow(int rowNum, Sheet sh) {
+    static JSONArray getSingleRowString(int rowNum, Sheet sh) {
         Row row = sh.getRow(rowNum);
         ArrayList<String> valueList = new ArrayList<>();
         for (Cell cell : row) {
@@ -112,6 +119,19 @@ public class Processor {
                 continue; // first column not needed
             }
             valueList.add(cell.getStringCellValue());
+        }
+        JSONArray jsonArr = new JSONArray(valueList);
+        return jsonArr;
+    }
+
+    static JSONArray getSingleRowNumbers(int rowNum, Sheet sh) {
+        Row row = sh.getRow(rowNum);
+        ArrayList<Integer> valueList = new ArrayList<>();
+        for (Cell cell : row) {
+            if (cell.getColumnIndex() == 0) {
+                continue; // first column not needed
+            }
+            valueList.add((int)cell.getNumericCellValue());
         }
         JSONArray jsonArr = new JSONArray(valueList);
         return jsonArr;
