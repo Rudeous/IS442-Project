@@ -12,11 +12,11 @@ public class ChromeOS {
         if (os.contains("win")) {
             return "Win.exe";
         } else if (os.contains("nux") || os.contains("nix")) {
-            return "Linux";
+            return "linux";
         } else if (os.contains("mac")) {
-            return "Mac";
+            return "mac";
         } else {
-            return "Other";
+            return "other";
         }
     }
 

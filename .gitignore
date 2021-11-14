@@ -30,3 +30,8 @@ src/main/resources/indonesia/EXPORT_condensates.xls
 .classpath
 .settings/org.eclipse.core.resources.prefs
 .settings/org.eclipse.jdt.core.prefs
+target/classes/mongodb/mongosh-1.1.1-win32-x64/bin/mongocryptd-mongosh.exe
+*.prefs
+.vscode*
+.settings\*
+.settings/org.eclipse.jdt.core.prefs

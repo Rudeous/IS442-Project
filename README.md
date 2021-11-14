@@ -4,7 +4,12 @@ Implements an application to scrape for and process oil trading data using OOP
 
 ## Setup 
 
-Maven installation: https://maven.apache.org/install.html
+1. ### [Install Maven:](https://maven.apache.org/install.html)
+
+2. ### Install mongodb:
+   **Windows:**
+      - navigate to windows binary folder
+
 
 
 
@@ -20,6 +25,12 @@ https://www.petrikainulainen.net/programming/testing/junit-5-tutorial-running-un
    - class name must end in "Test", "Tests" or "TestCase"
    - annotate method(s) to be tested with ```@Test```
 3. add resources needed to ```src/test/resources``` if required
+
+### Connecting to local mongodb
+1. navigate to mongodb binary folder from project root ```cd src\main\resources\mongodb\windows\mongod```
+2. run ```mongod --dbpath data```
+
+
 
 ### To run all test classes:
 ```mvn clean test```

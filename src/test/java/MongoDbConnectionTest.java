@@ -1,9 +1,9 @@
 import org.junit.jupiter.api.Test;
-import db.MongoDbConnection;
+import db.MongoDbConnect;
 
 public class MongoDbConnectionTest {
-    @Test
-    void Test() {
-        MongoDbConnection.connect();
-    }
+    // @Test
+    // void Test() {
+    //     MongoDbConnect.connect();
+    // }
 }
