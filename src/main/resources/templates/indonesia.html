@@ -23,16 +23,51 @@
     var type = exports;
     var year = "2017"; // ONLY INPUT FOR NET IMPORTS
 
+    backgroundColor= [
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(54, 247, 161, 0.2)',
+        'rgba(255, 115, 255, 0.2)',
+        'rgba(250, 137, 115, 0.2)',
+        'rgba(252, 168, 88, 0.2)',
+        'rgba(255, 117, 117, 0.2)',
+        'rgba(127, 227, 250, 0.2)',
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(127, 250, 209, 0.2)',
+        'rgba(178, 141, 252, 0.2)',
+        'rgba(168, 255, 236, 0.2)',
+    ]
+
+    borderColor=[
+        'rgba(255, 99, 132, 1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(54, 247, 161, 1)',
+        'rgba(255, 115, 255, 1)',
+        'rgba(250, 137, 115, 1)',
+        'rgba(252, 168, 88, 1)',
+        'rgba(255, 117, 117, 1)',
+        'rgba(127, 227, 250, 1)',
+        'rgba(255, 99, 132, 1)',
+        'rgba(127, 250, 209, 1)',
+        'rgba(178, 141, 252, 1)',
+        'rgba(168, 255, 236, 1)',
+    ]
+
+
+
     if (exports!=null & imports!=null){
+        var colourIndex = 0;
         var data = {labels:months, datasets:[]}
         for (productGroup in type[year]){
             var line = {
                 label:productGroup,
-                borderColor: 'rgb(255, 0, 1)',
+                borderColor: `${borderColor[colourIndex]}`,
+                backgroundColor: `${backgroundColor[colourIndex]}`,
                 lineTension: 0,
                 fill: false,
                 data:[]
-                    }
+            }
+            colourIndex++;
             for (month of months){
                 for (month_fullname in type[year][productGroup]){
                     if (month_fullname.substring(0,3).toLowerCase() == month.toLowerCase()){
@@ -68,16 +103,19 @@
     }
 
     if (net!=null){
+        var colourIndex = 0;
         console.log(net);
         var data = {labels:months, datasets:[]}
         for (productGroup in net[year]){
             var line = {
                 label:productGroup,
-                borderColor: 'rgb(255, 0, 1)',
+                borderColor: `${borderColor[colourIndex]}`,
+                backgroundColor: `${borderColor[colourIndex]}`,
                 lineTension: 0,
-                fill: false,
+                fill: true,
                 data:[]
-                    }
+            }
+            colourIndex++;
             for (month of months){
                 for (month_fullname in net[year][productGroup]){
                     if (month_fullname.substring(0,3).toLowerCase() == month.toLowerCase()){
