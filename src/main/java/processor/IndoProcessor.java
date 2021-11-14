@@ -19,6 +19,7 @@ import org.w3c.dom.ranges.Range;
 import scrapers.HSCodes;
 import org.json.*;
 import java.util.LinkedHashMap;
+import db.MongoDbConnect;
 
 import java.util.*;
 import java.io.*;
@@ -45,14 +46,15 @@ public class IndoProcessor {
             String productGroup = arrOfStr[1];
             JSONObject productGroupJsonObject = process(fileName,folderName);
             if (finalJSONFile.has(type)){
-                finalJSONFile.getJSONObject(type).put(productGroup,productGroupJsonObject);
+                finalJSONFile.getJSONObject(type).put(productGroup.replace(".", ""),productGroupJsonObject);
             }
             else{
-                finalJSONFile.put(type,generateJSONObject().put(productGroup,productGroupJsonObject));
+                finalJSONFile.put(type.replace(".",""),generateJSONObject().put(productGroup.replace(".",""),productGroupJsonObject));
             }
         }
         printJson(finalJSONFile);
         writeJsonObjToFile(finalJSONFile,folderName+"\\indonesiaDataset.json");
+        MongoDbConnect.insert(finalJSONFile, "IS442", "IndoOilData");
     }
 
     public static void printJson(JSONObject jsonObj){
@@ -128,13 +130,13 @@ public class IndoProcessor {
                         // detected
                         countries.add(cell.toString());
                         currentCountry = cell.toString();
-                        country.put(cell.toString(), 1);
+                        country.put(cell.toString().replace(".",""), 1);
                         cellCount++;
                         countryRow.add(currentCountry);
                     }
                     if (Objects.equals(cell.toString(), "") && countryIndicator.equals("doing")) {//blank space
                         int count = country.containsKey(currentCountry) ? country.get(currentCountry) : 0;
-                        country.put(currentCountry, count + 1);
+                        country.put(currentCountry.replace(".",""), count + 1);
                         cellCount++;
                         countryRow.add(currentCountry);
                     }
@@ -293,17 +295,17 @@ public class IndoProcessor {
                 String month = arrOfStr[2];
                 BigDecimal value = eachValueRow.get(i);
                 if (!jsonYearObject.has(country)){ //country not inside yet
-                    jsonYearObject.put(country,generateJSONObject().put(port,generateJSONObject().put(month,value)));
+                    jsonYearObject.put(country.replace(".",""),generateJSONObject().put(port.replace(".",""),generateJSONObject().put(month.replace(".",""),value)));
                     continue;
                 }
                 JSONObject jsonPortObject = jsonYearObject.getJSONObject(country);
                 if (!jsonPortObject.has(port)){ //port not inside
-                    jsonPortObject.put(port,generateJSONObject().put(month,value));
+                    jsonPortObject.put(port.replace(".",""),generateJSONObject().put(month.replace(".",""),value));
                     continue;
                 }
-                jsonPortObject.getJSONObject(port).put(month,value); //add in
+                jsonPortObject.getJSONObject(port).put(month.replace(".",""),value); //add in
             }
-            jsonProductObject.put(currentYear,jsonYearObject);
+            jsonProductObject.put(currentYear.replace(".",""),jsonYearObject);
         }
 //        int spacesToIndentEachLevel = 4;
 //        System.out.println(jsonProductObject.toString(spacesToIndentEachLevel));

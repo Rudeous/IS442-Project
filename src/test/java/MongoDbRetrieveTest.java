@@ -8,8 +8,23 @@ import org.json.*;
 
 public class MongoDbRetrieveTest {
     @Test
-    void retrieveTest() {
+    void retrieveIndiaTest() {
         JSONObject jObject = MongoDbConnect.retrieve("IndiaOilData", "IS442");
+        System.out.println(jObject);
+        Iterator<String> keys = jObject.keys();
+        
+        while(keys.hasNext()) {
+            String key = keys.next();
+            if (!key.equals("_id")) {
+                // check all keys not equal to document id
+                System.out.println(key);
+            }
+        }
+    }
+
+    @Test
+    void retrieveIndoTest() {
+        JSONObject jObject = MongoDbConnect.retrieve("IndoOilData", "IS442");
         System.out.println(jObject);
         Iterator<String> keys = jObject.keys();
         

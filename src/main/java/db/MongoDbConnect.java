@@ -56,23 +56,39 @@ public class MongoDbConnect {
             System.out.println(collection.find(doc));
             collection.deleteOne(doc);
         }
+        // Iterator<String> keys = jsonobj.keys();
+        
+        // while(keys.hasNext()) {
+        //     String key = keys.next();
+        //     if (!key.equals("_id")) {
+        //         // check all keys not equal to document id
+        //         System.out.println(key);
+        //     }
+        // }
         collection.insertOne(doc);
 
-        // jsonobj.keys().forEachRemaining(key -> {
-        //     Document doc = Document.parse( jsonobj.toString() );
-        //     if (collection.find(doc).first()!=null) { // drop if document with same key already exists in db
-        //         System.out.println(collection.find(doc));
-        //         collection.deleteOne(doc);
-        //     }
-        //     collection.insertOne(doc);
-        // });
+        
     }
 
     public static JSONObject retrieve(String collectionName, String dbName) {
         MongoCollection<Document> collection = connect(dbName, collectionName);
-        
-        Document doc = collection.find().first();
-        JSONObject jObject = new JSONObject(doc.toJson());
+        JSONObject jObject = null;
+        // iterate through collection of documents to get correct one
+        FindIterable<Document> iterDoc = collection.find();
+        Iterator<Document> it = iterDoc.iterator();
+        while (it.hasNext()) {
+            Document doc = it.next();
+            // if ( !doc.containsKey("PT_import") || !doc.containsKey("IMPORT") ) {
+            //     continue;
+            // }
+            jObject = new JSONObject(doc.toJson());
+            
+        }
         return jObject;
+        
+
+        // Document doc = collection.find().first();
+        // JSONObject jObject = new JSONObject(doc.toJson());
+        // return jObject;
     }
 }
