@@ -293,7 +293,7 @@ public class IndoProcessor {
                 String country = arrOfStr[0];
                 String port = arrOfStr[1];
                 String month = arrOfStr[2];
-                BigDecimal value = eachValueRow.get(i);
+                BigDecimal value = eachValueRow.get(i).divide(new BigDecimal(1000));
                 if (!jsonYearObject.has(country)){ //country not inside yet
                     jsonYearObject.put(country.replace(".",""),generateJSONObject().put(port.replace(".",""),generateJSONObject().put(month.replace(".",""),value)));
                     continue;

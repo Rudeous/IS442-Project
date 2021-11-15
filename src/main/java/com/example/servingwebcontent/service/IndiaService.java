@@ -7,9 +7,6 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -20,7 +17,7 @@ import java.util.HashMap;
 @Service
 public class IndiaService {
 
-    private IndiaRepository indiaRepository;
+    private final IndiaRepository indiaRepository;
 
     public IndiaService(IndiaRepository indiaRepository) {
         this.indiaRepository = indiaRepository;
