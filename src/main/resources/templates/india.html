@@ -557,7 +557,12 @@
             var data = /*[[${data}]]*/ 'default';
         /*]]>*/
 
+        // console.log(data);
+
         for (var sheet in data) {
+            if (sheet == "_id") {
+                continue;
+            }
             sheetNamesArr.push(sheet);
             var labels = {
                 "import": [],
@@ -571,8 +576,11 @@
                 "import": [],
                 "export": []
             };
-
+            
+            console.log(sheet);
+            console.log(data[sheet]["Periods"]);
             monthsArr = data[sheet]["Periods"].slice(0, 12);
+            console.log(monthsArr);
             importArr = data[sheet]["Imports"];
             exportArr = data[sheet]["Exports"];
 
@@ -609,13 +617,18 @@
 
             netImportArr.push(data[sheet]["Net Import"]);
 
+            // console.log(productNamesArr);
+            // console.log(productValuesArr);
+            // console.log(totalValuesArr);
+            // console.log(netImportArr);
+
         }
 
-<!--        console.log(sheetNamesArr);-->
-        console.log(productNamesArr);
-<!--        console.log(productValuesArr);-->
-<!--        console.log(netImportArr);-->
-        console.log(totalValuesArr)
+// <!--        console.log(sheetNamesArr);-->
+        // console.log(productNamesArr);
+// <!--        console.log(productValuesArr);-->
+// <!--        console.log(netImportArr);-->
+        // console.log(totalValuesArr);
 
 
         var lineChart = "";
@@ -623,7 +636,7 @@
 
         function changeChart() {
 
-            <!-- previous chart destroyed to make way for the new chosen chart -->
+            // <!-- previous chart destroyed to make way for the new chosen chart -->
             if (lineChart != "") {
                 lineChart.destroy();
             }
@@ -631,7 +644,7 @@
                 barChart.destroy();
             }
 
-            <!-- retrieve the user input for the select dropdown -->
+            // <!-- retrieve the user input for the select dropdown -->
             var yearChoice = document.getElementById("years").value;
             var importexportChoice = document.getElementById("importexport").value;
             console.log(yearChoice);
@@ -653,8 +666,8 @@
 
             if (importexportChoice == "netimport") {
 
-<!--                maxValue = Math.max(...netImportArr[yearChoice]);-->
-<!--                console.log(maxValue);-->
+// <!--                maxValue = Math.max(...netImportArr[yearChoice]);-->
+// <!--                console.log(maxValue);-->
                 console.log(netImportArr[yearChoice]);
 
                 dataSets.push(
@@ -803,8 +816,8 @@
 
 
 
-<!-- TODO: use the total values of each product, put into bar chart -->
-<!-- TODO: net import, include total import & total export -->
+// <!-- TODO: use the total values of each product, put into bar chart -->
+// <!-- TODO: net import, include total import & total export -->
 
 
         }

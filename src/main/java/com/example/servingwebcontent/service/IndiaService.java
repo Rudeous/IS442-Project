@@ -1,9 +1,14 @@
 package com.example.servingwebcontent.service;
 
+import com.example.servingwebcontent.repository.IndiaRepository;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.json.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,20 +20,25 @@ import java.util.HashMap;
 @Service
 public class IndiaService {
 
+    private IndiaRepository indiaRepository;
+
+    public IndiaService(IndiaRepository indiaRepository) {
+        this.indiaRepository = indiaRepository;
+    }
+
     public HashMap<String, HashMap<String, ArrayList>> getIndiaValues() {
 
         HashMap<String, HashMap<String, ArrayList>> processedJson = new HashMap<>();
 
         try {
             ObjectMapper mapper = new ObjectMapper();
-            InputStream inputStream = new FileInputStream(
-                    new File("src/main/resources/processedJSON.json"));
+            mapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
+            JSONObject indiaJsonObj = indiaRepository.getIndiaDataFromMongo();
+            String indiaJsonString = indiaJsonObj.toString();
             TypeReference<HashMap<String, HashMap<String, ArrayList>>> typeReference = new TypeReference<HashMap<String, HashMap<String, ArrayList>>>() {
             };
-            processedJson = mapper.readValue(inputStream, typeReference);
+            processedJson = mapper.readValue(indiaJsonString, typeReference);
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (JsonMappingException e) {
             e.printStackTrace();
         } catch (JsonParseException e) {
