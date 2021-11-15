@@ -41,7 +41,7 @@ public class IndonesiaController {
         model.addAttribute("import",Types.get(0));
         model.addAttribute("export",Types.get(1));
         //model.addAttribute("productGroup",productGroup);
-        return "indonesia";
+        return "new_indonesia";
     }
 
     @RequestMapping("/net")
@@ -53,7 +53,7 @@ public class IndonesiaController {
         model.addAttribute("months",months);
         model.addAttribute("net",net);
 
-        return "indonesia";
+        return "new_indonesia";
     }
 
     @RequestMapping("/byOriginAndDestination")
@@ -67,7 +67,7 @@ public class IndonesiaController {
         model.addAttribute("byOriginAndDestinationImports",byOriginAndDestination.get(0));
         model.addAttribute("byOriginAndDestinationExports",byOriginAndDestination.get(1));
 
-        return "indonesia";
+        return "new_indonesia";
     }
 
 

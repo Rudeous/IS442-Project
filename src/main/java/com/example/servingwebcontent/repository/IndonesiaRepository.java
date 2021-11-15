@@ -16,7 +16,7 @@ public class IndonesiaRepository{
 
     public static void printJson(JSONObject jsonObj){
         int spacesToIndentEachLevel = 4;
-        System.out.println(jsonObj.toString(spacesToIndentEachLevel));
+        // System.out.println(jsonObj.toString(spacesToIndentEachLevel));
     }
 
     public static BigDecimal convertToBigDecimal(Object monthsValue){
@@ -296,8 +296,8 @@ public class IndonesiaRepository{
 //                    }
 //                }
 //            }
-            System.out.println(returnList.get(0));
-            System.out.println(returnList);
+            // System.out.println(returnList.get(0));
+            // System.out.println(returnList);
             return returnList;
         }
         catch(Exception e){

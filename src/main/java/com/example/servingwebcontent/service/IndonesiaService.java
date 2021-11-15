@@ -37,10 +37,10 @@ public class IndonesiaService {
                     if ( exports.containsKey(year) && exports.get(year).containsKey(productGroup) && exports.get(year).get(productGroup).containsKey(month)){
                         BigDecimal monthimport = imports.get(year).get(productGroup).get(month);
                         BigDecimal monthexport = exports.get(year).get(productGroup).get(month);
-                        System.out.println("imports for "+month+": "+monthimport);
-                        System.out.println("exports for "+month+": "+monthexport);
+                        // System.out.println("imports for "+month+": "+monthimport);
+                        // System.out.println("exports for "+month+": "+monthexport);
                         BigDecimal diff = monthimport.subtract(monthexport);
-                        System.out.println("diff: "+diff);
+                        // System.out.println("diff: "+diff);
                         imports.get(year).get(productGroup).put(month,diff);
                     }
                 }
@@ -53,8 +53,8 @@ public class IndonesiaService {
                     if ( imports.containsKey(year) && imports.get(year).containsKey(productGroup) && !imports.get(year).get(productGroup).containsKey(month)){
                         imports.get(year).get(productGroup).put(month,
                                 exports.get(year).get(productGroup).get(month).negate());
-                        System.out.println("Month: "+month);
-                        System.out.println("Exports: "+ imports.get(year).get(productGroup).get(month));
+                        // System.out.println("Month: "+month);
+                        // System.out.println("Exports: "+ imports.get(year).get(productGroup).get(month));
                     }
 //                    else{
 //                        System.out.println("ERRORR");
