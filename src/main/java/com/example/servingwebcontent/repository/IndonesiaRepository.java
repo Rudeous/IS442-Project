@@ -1,6 +1,7 @@
 package com.example.servingwebcontent.repository;
 
 
+import db.MongoDbConnect;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
 
@@ -32,11 +33,13 @@ public class IndonesiaRepository{
 
     public static ArrayList<Map<String, Map<String, Map<String, BigDecimal>>>> getAll() throws IOException {
         try {
-            InputStream is = new FileInputStream(System.getProperty("user.dir") + "\\src\\main\\java\\com\\example" +
-                    "\\servingwebcontent\\repository\\indonesiaDataset.json");
-            String jsonTxt = IOUtils.toString(is, StandardCharsets.UTF_8);
-            JSONObject json = new JSONObject(jsonTxt);
+//            InputStream is = new FileInputStream(System.getProperty("user.dir") + "\\src\\main\\java\\com\\example" +
+//                    "\\servingwebcontent\\repository\\indonesiaDataset.json");
+//            String jsonTxt = IOUtils.toString(is, StandardCharsets.UTF_8);
+//            JSONObject json = new JSONObject(jsonTxt);
             ////
+            JSONObject json = MongoDbConnect.retrieve("IndoOilData", "IS442");
+            // System.out.println(json);
 
             JSONObject imports = (JSONObject) json.get("IMPORT");
             JSONObject exports = (JSONObject) json.get("EXPORT");
@@ -150,9 +153,10 @@ public class IndonesiaRepository{
             return returnList;
             //printJson(json);
         }
-        catch(IOException e){
+        catch(Exception e){
             e.printStackTrace();
-            throw new IOException();
+//            throw new IOException();
+            throw new RuntimeException("Error in Indonesia Repo Get All");
         }
 
     }
@@ -160,11 +164,14 @@ public class IndonesiaRepository{
     public static ArrayList<Map<String, Map<String, Map<String, Map<String,BigDecimal>>>>> additional() throws IOException{
 
         try {
-            InputStream is = new FileInputStream(System.getProperty("user.dir") + "\\src\\main\\java\\com\\example" +
-                    "\\servingwebcontent\\repository\\indonesiaDataset.json");
-            String jsonTxt = IOUtils.toString(is, StandardCharsets.UTF_8);
-            JSONObject json = new JSONObject(jsonTxt);
+//            InputStream is = new FileInputStream(System.getProperty("user.dir") + "\\src\\main\\java\\com\\example" +
+//                    "\\servingwebcontent\\repository\\indonesiaDataset.json");
+//            String jsonTxt = IOUtils.toString(is, StandardCharsets.UTF_8);
+//            JSONObject json = new JSONObject(jsonTxt);
             ////
+            JSONObject json = MongoDbConnect.retrieve("IndoOilData", "IS442");
+            // System.out.println(json);
+
 
             JSONObject imports = (JSONObject) json.get("IMPORT");
             JSONObject exports = (JSONObject) json.get("EXPORT");
@@ -293,9 +300,9 @@ public class IndonesiaRepository{
             System.out.println(returnList);
             return returnList;
         }
-        catch(IOException e){
+        catch(Exception e){
             e.printStackTrace();
-            throw new IOException();
+            throw new RuntimeException("Error in Indonesia Repository Additional");
         }
 
     }
