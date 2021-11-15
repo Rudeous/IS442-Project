@@ -10,7 +10,7 @@ public class ChromeOS {
         String os = System.getProperty("os.name").toLowerCase();
         System.out.println(os);
         if (os.contains("win")) {
-            return "Win.exe";
+            return "windows";
         } else if (os.contains("nux") || os.contains("nix")) {
             return "linux";
         } else if (os.contains("mac")) {

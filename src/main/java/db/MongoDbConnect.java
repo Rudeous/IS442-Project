@@ -12,6 +12,12 @@ import com.mongodb.*;
 import org.bson.*;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.SocketAddress;
+import java.net.SocketTimeoutException;
+import java.net.URL;
 import java.util.*;
 // import com.mongodb.client.model.Filters.*;
 
@@ -24,6 +30,10 @@ public class MongoDbConnect {
         switch (osType) {
             case "windows":
                 System.out.println("reached 1");
+                if (mongoIsConnected()) {
+                    System.out.println("MongoDb is already connected");
+                    break;
+                }
                 RunDbScripts.runBatchFile();
                 System.out.println("reached 2");
                 break;
@@ -46,6 +56,20 @@ public class MongoDbConnect {
                                                                                 // relational db
         
         return collection;
+    }
+
+    public static Boolean mongoIsConnected() {
+        String mongoUrlStr = "http://localhost:27017"; // mongo url
+        try {
+            URL mongoURL = new URL(mongoUrlStr);
+            SocketAddress socketAddress = new InetSocketAddress(mongoURL.getHost(), mongoURL.getPort());
+            Socket socket = new Socket();
+            socket.connect(socketAddress, 1000);
+            socket.close();
+        } catch (IOException | IllegalArgumentException e) {
+            return false;
+        }
+        return true;
     }
     
     public static void insert(JSONObject jsonobj, String dbName, String collectionName) {
