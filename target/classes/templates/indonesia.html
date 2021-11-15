@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"></meta>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Visualised Data</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+    <script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
+    <script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/sb-admin-2.min.js}"></script>
+
+    <link th:href="@{/css/all.min.css}" th:rel="stylesheet">
+    <link th:href="@{/css/sb-admin-2.min.css}" th:rel="stylesheet">
+    <style>
+            .card-body{
+                height: 100vh;
+            }
+        </style>
+</head>
+
+<body id="page-top">
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+    <!-- Sidebar -->
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+        <!-- Sidebar - Brand -->
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="india.html" >
+            <img src="img/logo.png" width="120" >
+        </a>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            Countries
+        </div>
+
+        <!-- Nav Item - India1 -->
+        <li class="nav-item">
+            <a class="nav-link" href="india.html">
+                <i class="fas fa-fw fa-chart-area"></i>
+                <span>India 1</span></a>
+        </li>
+
+        <!-- Nav Item - Indonesia -->
+        <li class="nav-item">
+            <a class="nav-link" href="indonesia.html">
+                <i class="fas fa-fw fa-chart-area"></i>
+                <span>Indonesia</span></a>
+        </li>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+
+    </ul>
+    <!-- End of Sidebar -->
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <h1 class="h1 mb-0 text-gray-800 mt-1">Visualised Data</h1>
+                </div>
+
+<p th:text="'Hello, ' + ${months} + '!'"></p>
+                <!-- Content Row -->
+
+                <div class="row">
+
+                    <!-- Area Chart -->
+                    <div class="col-12">
+                        <div class="card shadow mb-10 mh-100">
+                            <!-- Card Header - Dropdown -->
+                            <div
+                                    class="card-header py-10 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary">Indonesia</h6>
+                            </div>
+                            <!-- Card Body -->
+                            <div class="card-body">
+                                <div class="chart-area">
+                                    <div>
+                                        <label for="years">Choose a year:</label>
+
+                                        <select name="years" id="years" th:onchange="changeChart()">
+                                            <option th:value="-1" th:selected="-1">--- Select ---</option>
+                                            <option th:value="1">17-18</option>
+                                            <option th:value="2">18-19</option>
+                                            <option th:value="0">19-20</option>
+                                            <option th:value="4">20-21</option>
+                                            <option th:value="3">Current</option>
+                                        </select>
+                                    </div>
+
+                                    <div>
+                                        <label for="importexport">Import/Export:</label>
+
+                                        <select name="importexport" id="importexport" th:onchange="changeChart()">
+                                            <option th:value="-1" th:selected="-1">--- Select ---</option>
+                                            <option th:value="import">Import</option>
+                                            <option th:value="export">Export</option>
+                                            <option th:value="netimport">Net Import</option>
+                                        </select>
+                                    </div>
+
+                                    <canvas id="myChart" width="200" height="100"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <!-- /.container-fluid -->
+
+    </div>
+    <!-- End of Main Content -->
+
+</div>
+<!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
+
+</body>
+<script type="text/javascript" th:inline="javascript">
+    var months = /*[[${months}]]*/;
+    var imports = /*[[${import}]]*/;
+    var exports = /*[[${export}]]*/;
+    var net = /*[[${net}]]*/;
+
+    // USER INPUTS
+    var type = exports;
+    var year = "2017"; // ONLY INPUT FOR NET IMPORTS
+
+    backgroundColor= [
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(54, 247, 161, 0.2)',
+        'rgba(255, 115, 255, 0.2)',
+        'rgba(250, 137, 115, 0.2)',
+        'rgba(252, 168, 88, 0.2)',
+        'rgba(255, 117, 117, 0.2)',
+        'rgba(127, 227, 250, 0.2)',
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(127, 250, 209, 0.2)',
+        'rgba(178, 141, 252, 0.2)',
+        'rgba(168, 255, 236, 0.2)',
+    ]
+
+    borderColor=[
+        'rgba(255, 99, 132, 1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(54, 247, 161, 1)',
+        'rgba(255, 115, 255, 1)',
+        'rgba(250, 137, 115, 1)',
+        'rgba(252, 168, 88, 1)',
+        'rgba(255, 117, 117, 1)',
+        'rgba(127, 227, 250, 1)',
+        'rgba(255, 99, 132, 1)',
+        'rgba(127, 250, 209, 1)',
+        'rgba(178, 141, 252, 1)',
+        'rgba(168, 255, 236, 1)',
+    ]
+
+
+
+    if (exports!=null & imports!=null){
+        var colourIndex = 0;
+        var data = {labels:months, datasets:[]}
+        for (productGroup in type[year]){
+            var line = {
+                label:productGroup,
+                borderColor: `${borderColor[colourIndex]}`,
+                backgroundColor: `${backgroundColor[colourIndex]}`,
+                lineTension: 0,
+                fill: false,
+                data:[]
+            }
+            colourIndex++;
+            for (month of months){
+                for (month_fullname in type[year][productGroup]){
+                    if (month_fullname.substring(0,3).toLowerCase() == month.toLowerCase()){
+                        line["data"].push(type[year][productGroup][month_fullname])
+                        break
+                    }
+                }
+            }
+            data["datasets"].push(line)
+        }
+        console.log(data)
+
+
+        var ctx = document.getElementById("Chart").getContext('2d');
+        var ChartDemo = new Chart(ctx, {
+                type: 'line',
+                // data: {
+                //     labels: months ,
+                //     datasets: [{
+                //         label: "Chart-1",
+                //         borderColor: 'rgb(255, 0, 1)',
+                //         lineTension: 0,
+                //         fill: false,
+                //         //the same manner as described above, only is taken out of the point in the variable expression.
+                //         data: [1,2,3,4,5,6,7,8,9,1,11] ,
+                //     }, ]
+                // },
+                data: data,
+                options: {
+                    responsive: true,
+                }
+        });
+    }
+
+    if (net!=null){
+        var colourIndex = 0;
+        console.log(net);
+        var data = {labels:months, datasets:[]}
+        for (productGroup in net[year]){
+            var line = {
+                label:productGroup,
+                borderColor: `${borderColor[colourIndex]}`,
+                backgroundColor: `${borderColor[colourIndex]}`,
+                lineTension: 0,
+                fill: true,
+                data:[]
+            }
+            colourIndex++;
+            for (month of months){
+                for (month_fullname in net[year][productGroup]){
+                    if (month_fullname.substring(0,3).toLowerCase() == month.toLowerCase()){
+                        line["data"].push(net[year][productGroup][month_fullname])
+                        break
+                    }
+                }
+            }
+            data["datasets"].push(line)
+        }
+        console.log(data)
+
+
+        var ctx = document.getElementById("Chart").getContext('2d');
+        var ChartDemo = new Chart(ctx, {
+                type: 'bar',
+                // data: {
+                //     labels: months ,
+                //     datasets: [{
+                //         label: "Chart-1",
+                //         borderColor: 'rgb(255, 0, 1)',
+                //         lineTension: 0,
+                //         fill: false,
+                //         //the same manner as described above, only is taken out of the point in the variable expression.
+                //         data: [1,2,3,4,5,6,7,8,9,1,11] ,
+                //     }, ]
+                // },
+                data: data,
+                options: {
+                    responsive: true,
+                }
+        });
+    }
+
+    
+  </script>
+</html>
