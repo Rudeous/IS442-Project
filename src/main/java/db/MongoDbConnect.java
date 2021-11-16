@@ -3,6 +3,7 @@ import scrapers.ChromeOS;
 import db.RunWindowsDbScripts;
 import db.RunMacDbScripts;
 
+import com.fasterxml.jackson.databind.ser.std.StdKeySerializers.Default;
 import com.mongodb.MongoClient;
 import com.mongodb.client.*;
 import com.mongodb.MongoClientURI;
@@ -25,19 +26,21 @@ public class MongoDbConnect {
         // check os to run windows bat or mac bash file
         // ISSUE: unable to start a background subthread while main process continues to run?
         String osType = ChromeOS.OSDetector();
+        if (mongoIsConnected()) {
+            System.out.println("MongoDb is already connected");
+            osType = "";
+        }
         switch (osType) {
             case "windows":
-                if (mongoIsConnected()) {
-                    System.out.println("MongoDb is already connected");
-                    break;
-                }
                 RunWindowsDbScripts.runBatchFile();
                 break;
             
             case "mac":
                 RunMacDbScripts.runBashScript();
                 break;
-
+            
+            default:
+                break;
         }
         // mongodb server is up and running in the background
 

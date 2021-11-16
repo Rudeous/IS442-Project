@@ -30,27 +30,6 @@ public class RunMacDbScripts implements Runnable {
             e.printStackTrace();
         }
 
-        // ProcessBuilder processBuilder = new ProcessBuilder("cmd.exe", "/c",
-        //         System.getProperty("user.dir") + "\\src\\main\\resources\\mongodb\\windows\\mongod\\startMongod.bat");
-        // System.out.println(
-        //         System.getProperty("user.dir") + "\\src\\main\\resources\\mongodb\\windows\\mongod\\startMongod.bat");
-
-        // try {
-        //     // executes windows batch file to start mongodb server in this new thread
-        //     // processBuilder.redirectErrorStream(true);
-        //     Process p = processBuilder.start();
-        //     BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()));
-        //     String line;
-        //     while (true) {
-        //         line = r.readLine();
-        //         if (line == null) {
-        //             break;
-        //         }
-        //         System.out.println(line);
-        //     }
-        // } catch (IOException e) {
-        //     System.out.println("Mongodb server not started successfully since batch file could not be run");
-        // }
     }
 
     public static void runBashScript() {
