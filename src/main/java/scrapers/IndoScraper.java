@@ -34,11 +34,11 @@ public class IndoScraper {
 
     private static WebDriver getChromeDriver(String timeStampFolderName){
         // Set the path of the driver to driver executable.
-//        System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir")+"\\src\\main\\resources\\chromedriver.exe");
+//        System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir")+"/src/main/resources/chromedriver.exe");
         HashMap<String, Object> chromePrefs = new HashMap<String, Object>();
         chromePrefs.put("profile.default_content_settings.popups", 0);
         chromePrefs.put("download.default_directory",
-                System.getProperty("user.dir")+"\\src\\main\\resources\\indonesia\\"+timeStampFolderName); //specify relative
+                System.getProperty("user.dir")+"/src/main/resources/indonesia/"+timeStampFolderName); //specify relative
         // download path
         ChromeOptions options = new ChromeOptions();
         options.setExperimentalOption("prefs", chromePrefs);
@@ -57,23 +57,23 @@ public class IndoScraper {
                 "__");
 
         //create folder to store downloads
-        File theDir = new File(System.getProperty("user.dir")+"\\src\\main\\resources\\indonesia\\"+timeStampFolderName);
+        File theDir = new File(System.getProperty("user.dir")+"/src/main/resources/indonesia/"+timeStampFolderName);
         if (!theDir.exists()){
             theDir.mkdirs();
         }
         else{
-            File anotherDir = new File(System.getProperty("user.dir")+"\\src\\main\\resources\\indonesia\\"+timeStampFolderName+"(2)");
+            File anotherDir = new File(System.getProperty("user.dir")+"/src/main/resources/indonesia/"+timeStampFolderName+"(2)");
             anotherDir.mkdirs();
         }
 
         WebDriver driver = getChromeDriver(timeStampFolderName);
 
 //        // Set the path of the driver to driver executable.
-//        System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir")+"\\src\\main\\resources\\chromedriver.exe"); //relative path
+//        System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir")+"/src/main/resources/chromedriver.exe"); //relative path
 //        HashMap<String, Object> chromePrefs = new HashMap<String, Object>();
 //        chromePrefs.put("profile.default_content_settings.popups", 0);
 //        chromePrefs.put("download.default_directory",
-//                System.getProperty("user.dir")+"\\src\\main\\resources\\indonesia\\"+timeStampFolderName); //specify relative
+//                System.getProperty("user.dir")+"/src/main/resources/indonesia/"+timeStampFolderName); //specify relative
 //        // download path
 //        ChromeOptions options = new ChromeOptions();
 //        options.setExperimentalOption("prefs", chromePrefs);
