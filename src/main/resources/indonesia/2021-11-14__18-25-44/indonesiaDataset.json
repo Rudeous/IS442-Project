@@ -1,0 +1,20 @@
+{
+    "IMPORT": {
+        "crude_oil": {"Error": "error in reading and generating .json file"},
+        "condensates": {"Error": "error in reading and generating .json file"},
+        "gasoline": {"Error": "error in reading and generating .json file"},
+        "naphtha": {"Error": "error in reading and generating .json file"},
+        "jet_fuel": {"Error": "error in reading and generating .json file"},
+        "gasoil_diesel": {"Error": "error in reading and generating .json file"},
+        "fuel_oil": {"Error": "error in reading and generating .json file"}
+    },
+    "EXPORT": {
+        "crude_oil": {"Error": "error in reading and generating .json file"},
+        "condensates": {"Error": "error in reading and generating .json file"},
+        "gasoline": {"Error": "error in reading and generating .json file"},
+        "naphtha": {"Error": "error in reading and generating .json file"},
+        "jet_fuel": {"Error": "error in reading and generating .json file"},
+        "gasoil_diesel": {"Error": "error in reading and generating .json file"},
+        "fuel_oil": {"Error": "error in reading and generating .json file"}
+    }
+}
