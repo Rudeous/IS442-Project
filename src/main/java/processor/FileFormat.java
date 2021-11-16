@@ -15,9 +15,9 @@ import java.util.concurrent.TimeUnit;
 
 public class FileFormat {
     public static void call(String fileName, String folderName) {
-        String script = System.getProperty("user.dir")+"\\src\\main\\resources\\change_file_format.vbs ";
+        String script = System.getProperty("user.dir")+"/src/main/resources/change_file_format.vbs ";
         String filepath =
-                System.getProperty("user.dir")+"\\src\\main\\resources\\indonesia\\"+folderName+"\\"+fileName+" ";
+                System.getProperty("user.dir")+"/src/main/resources/indonesia/"+folderName+"/"+fileName+" ";
         try {
             System.out.println("Converting file format of "+filepath);
             Runtime.getRuntime().exec( "wscript " + script + filepath );
@@ -35,8 +35,8 @@ public class FileFormat {
         TimeUnit.SECONDS.sleep(20);
     }
 //    public static void call(){
-//        File file = new File(System.getProperty("user.dir")+"\\src\\main" +
-//                "\\resources\\testingexcel\\change_file_format.xlsm");
+//        File file = new File(System.getProperty("user.dir")+"/src/main" +
+//                "/resources/testingexcel/change_file_format.xlsm");
 //        String macroName = "file_format";
 //        callExcelMacro(file, macroName);
 //    }

@@ -28,7 +28,7 @@ public class IndoProcessor {
 
     public static void processAll(){
         java.io.File dir =
-                new java.io.File(System.getProperty("user.dir")+"\\src\\main\\resources\\indonesia\\");
+                new java.io.File(System.getProperty("user.dir")+"/src/main/resources/indonesia/");
         java.io.File[] files = dir.listFiles();
 
         //Sort files in ascending order base on last modification date
@@ -53,7 +53,7 @@ public class IndoProcessor {
             }
         }
         printJson(finalJSONFile);
-        // writeJsonObjToFile(finalJSONFile,folderName+"\\indonesiaDataset.json");
+        // writeJsonObjToFile(finalJSONFile,folderName+"/indonesiaDataset.json");
         MongoDbConnect.insert(finalJSONFile, "IS442", "IndoOilData");
     }
 
@@ -66,7 +66,7 @@ public class IndoProcessor {
     {
         try
         {
-            FileInputStream file = new FileInputStream(new File(folderName+"\\"+productFile+".xls"));
+            FileInputStream file = new FileInputStream(new File(folderName+"/"+productFile+".xls"));
             System.out.println("reading "+folderName);
             //Create Workbook instance holding reference to .xlsx file
             HSSFWorkbook workbook = new HSSFWorkbook(file);
