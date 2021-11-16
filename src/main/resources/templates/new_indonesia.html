@@ -168,18 +168,14 @@
     var yearOptionsList = [];
 
     // USER INPUTS
-    var type = imports;
-    if (document.getElementById("importexport").value == "export") {
-        type = exports;
-    }
-    for (yearOption in type) {
+    for (yearOption in imports) {
         if (yearOption != "Error") {
             yearOptionsList.push(yearOption);
         }
     }
 
     // var year = document.getElementById("years").value;
-    var year = "2017"; // ONLY INPUT FOR NET IMPORTS
+    // var year = "2017"; // ONLY INPUT FOR NET IMPORTS
     var productGroup = "crude_oil";
     var Type = origin;
 
@@ -254,21 +250,38 @@
         'rgba(168, 255, 236, 1)',
     ]
 
+    var monthlyLine = "";
+    var netImportBar = "";
+    var additionalBar = "";
+
     function changeChart() {
-        var yearChoice = document.getElementById("years").value;
+
+        if (monthlyLine != "") {
+            monthlyLine.destroy();
+        }
+        if (netImportBar != "") {
+            netImportBar.destroy();
+        }
+        if (additionalBar != "") {
+            additionalBar.destroy();
+        }
+
+        var type = "";
+        var year = document.getElementById("years").value;
         var importexportChoice = document.getElementById("importexport").value;
-        console.log(yearChoice);
+        if (importexportChoice == "export") {
+            type = exports;
+        }
+        else {
+            type = imports;
+        }
+        console.log(year);
         console.log(importexportChoice);
-        if (yearChoice == -1 || importexportChoice == -1) {
+        if (year == -1 || importexportChoice == -1) {
             return;
         }
-        
-        
-    }
 
-
-
-    if (exports!=null & imports!=null){
+        if (exports!=null & imports!=null){
         var colourIndex = 0;
         var data = {labels:months, datasets:[]}
         
@@ -302,7 +315,7 @@
 
 
         var ctx = document.getElementById("Chart").getContext('2d');
-        var ChartDemo = new Chart(ctx, {
+        monthlyLine = new Chart(ctx, {
                 type: 'line',
                 // data: {
                 //     labels: months ,
@@ -350,7 +363,7 @@
 
 
         var ctx = document.getElementById("Chart").getContext('2d');
-        var ChartDemo = new Chart(ctx, {
+        netImportBar = new Chart(ctx, {
                 type: 'bar',
                 // data: {
                 //     labels: months ,
@@ -448,7 +461,7 @@
         console.log(data)
 
         var ctx = document.getElementById("Chart").getContext('2d');
-        var ChartDemo = new Chart(ctx, {
+        additionalBar = new Chart(ctx, {
             type:'bar',
             data: data,
             options: {
@@ -484,6 +497,9 @@
         //         },
         //     ]
         // }
+    }
+        
+        
     }
 
     
