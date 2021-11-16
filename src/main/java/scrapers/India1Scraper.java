@@ -18,7 +18,7 @@ public class India1Scraper {
     private static WebDriver getChromeDriver(){
         // Set the path of the driver to driver executable.
         HashMap<String, Object> chromePrefs = new HashMap<>();
-        String dlPath = "\\src\\main\\resources";
+        String dlPath = "/src/main/resources";
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--headless");
         chromePrefs.put("download.default_directory",System.getProperty("user.dir")+ dlPath);
