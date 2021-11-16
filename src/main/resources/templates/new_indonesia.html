@@ -5,7 +5,7 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <title>Visualised Data</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
 
     <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
     <script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
@@ -76,7 +76,6 @@
                     <h1 class="h1 mb-0 text-gray-800 mt-1">Visualised Data</h1>
                 </div>
 
-<p th:text="'Hello, ' + ${months} + '!'"></p>
                 <!-- Content Row -->
 
                 <div class="row">
@@ -120,7 +119,18 @@
                                             <option th:value="import">Import</option>
                                             <option th:value="export">Export</option>
                                             <!-- KIV if wanna put net import here -->
-                                            <!-- <option th:value="netimport">Net Import</option> -->
+                                            <option th:value="netimport">Net Import</option>
+                                            <option th:value="oadimport">Origin and Destination Import</option>
+                                            <option th:value="oadexport">Origin and Destination Export</option>
+                                        </select>
+                                    </div>
+
+                                    <div id="productgroupinput" class="form-group row">
+                                        <label for="productgroup" class="col-sm-2 col-form-label">Product:</label>
+
+                                        <select class="form-control col-sm-10" required="required" name="productgroup" id="productgroup" th:onchange="changeChart()" disabled>
+                                            <option disabled="disabled" selected="selected" th:value="-1" th:selected="-1">-- Select --</option>
+                                            <!-- <option th:value="oadexport">Origin and Destination Export</option> -->
                                         </select>
                                     </div>
 
@@ -165,6 +175,20 @@
     var origin = /*[[${byOriginAndDestinationImports}]]*/;
     var dest = /*[[${byOriginAndDestinationExports}]]*/;
 
+    // console.log("--- MONTHS ---");
+    // console.log(months);
+    // console.log("--- IMPORTS ---");
+    // console.log(imports);
+    // console.log("--- EXPORTS ---");
+    // console.log(exports);
+    // console.log("--- NET ---");
+    // console.log(net);
+    // console.log("--- ORIGIN ---");
+    // console.log(origin);
+    // console.log("--- DEST ---");
+    // console.log(dest);
+
+
     var yearOptionsList = [];
 
     // USER INPUTS
@@ -176,8 +200,11 @@
 
     // var year = document.getElementById("years").value;
     // var year = "2017"; // ONLY INPUT FOR NET IMPORTS
-    var productGroup = "crude_oil";
-    var Type = origin;
+    // var productGroup = "crude_oil";
+    // var Type = origin;
+
+    var productGroupArr = [];
+
 
     backgroundColor= [
         'rgba(255, 99, 132, 0.2)',
@@ -248,6 +275,19 @@
         'rgba(127, 250, 209, 1)',
         'rgba(178, 141, 252, 1)',
         'rgba(168, 255, 236, 1)',
+        'rgba(132, 233, 93, 1)',
+        'rgba(213, 242, 212, 1)',
+        'rgba(22, 222, 134, 1)',
+        'rgba(98, 187, 189, 1)',
+        'rgba(190, 188, 178, 1)',
+        'rgba(57, 111, 211, 1)',
+        'rgba(88, 145, 201, 1)',
+        'rgba(48, 135, 200, 1)',
+        'rgba(46, 198, 231, 1)',
+        'rgba(176, 95, 123, 1)',
+        'rgba(49, 149, 249, 1)',
+        'rgba(47, 64, 32, 1)',
+        'rgba(243, 158, 139, 1)'
     ]
 
     var monthlyLine = "";
@@ -267,21 +307,75 @@
         }
 
         var type = "";
+        var Type = "";
         var year = document.getElementById("years").value;
         var importexportChoice = document.getElementById("importexport").value;
-        if (importexportChoice == "export") {
-            type = exports;
-        }
-        else {
-            type = imports;
-        }
+        var productGroupChoice = document.getElementById("productgroup").value;
+
         console.log(year);
         console.log(importexportChoice);
         if (year == -1 || importexportChoice == -1) {
             return;
         }
 
-        if (exports!=null & imports!=null){
+        if (importexportChoice == "export") {
+            document.getElementById("productgroup").value = -1;
+            document.getElementById("productgroup").disabled = true;
+            Type = "";
+            type = exports;
+        }
+        else if (importexportChoice == "import") {
+            document.getElementById("productgroup").value = -1;
+            document.getElementById("productgroup").disabled = true;
+            Type = "";
+            type = imports;
+        }
+        else if (importexportChoice == "netimport") {
+            document.getElementById("productgroup").value = -1;
+            document.getElementById("productgroup").disabled = true;
+            type = "";
+            Type = "";
+        }
+        else if (importexportChoice == "oadimport") {
+            document.getElementById("productgroup").disabled = false;
+            type = "";
+            Type = origin;
+
+            var select = document.getElementById("productgroup");
+            select.innerHTML = `<option disabled="disabled" selected="selected" th:value="-1" th:selected="-1">-- Select --</option>`;
+            for (productName in Type[year]) {
+                var option = document.createElement("option");
+                option.value = productName;
+                option.text = productName;
+                select.appendChild(option);
+            }
+
+            if (additionalBar != "") {
+                additionalBar.destroy();
+            }
+        }
+        else if (importexportChoice == "oadexport") {
+            document.getElementById("productgroup").disabled = false;
+            type = "";
+            Type = dest;
+
+            var select = document.getElementById("productgroup");
+            select.innerHTML = `<option disabled="disabled" selected="selected" th:value="-1" th:selected="-1">-- Select --</option>`;
+            for (productName in Type[year]) {
+                var option = document.createElement("option");
+                option.value = productName;
+                option.text = productName;
+                select.appendChild(option);
+            }
+
+            if (additionalBar != "") {
+                additionalBar.destroy();
+            }
+        }
+       
+        
+
+        if (importexportChoice == "export" || importexportChoice == "import"){
         var colourIndex = 0;
         var data = {labels:months, datasets:[]}
         
@@ -311,7 +405,7 @@
             }
             data["datasets"].push(line)
         }
-        console.log(data)
+        // console.log(data)
 
 
         var ctx = document.getElementById("Chart").getContext('2d');
@@ -335,170 +429,174 @@
         });
     }
 
-    if (net!=null){
-        var colourIndex = 0;
-        console.log(net);
-        var data = {labels:months, datasets:[]}
-        for (productGroup in net[year]){
-            var line = {
-                label:productGroup,
-                borderColor: `${borderColor[colourIndex]}`,
-                backgroundColor: `${borderColor[colourIndex]}`,
-                lineTension: 0,
-                fill: true,
-                data:[]
+        else if (importexportChoice == "netimport"){
+            var colourIndex = 0;
+            // console.log(net);
+            var data = {labels:months, datasets:[]}
+            for (productGroup in net[year]){
+                var line = {
+                    label:productGroup,
+                    borderColor: `${borderColor[colourIndex]}`,
+                    backgroundColor: `${borderColor[colourIndex]}`,
+                    lineTension: 0,
+                    fill: true,
+                    data:[]
+                }
+                colourIndex++;
+                for (month of months){
+                    for (month_fullname in net[year][productGroup]){
+                        if (month_fullname.substring(0,3).toLowerCase() == month.toLowerCase()){
+                            line["data"].push(net[year][productGroup][month_fullname])
+                            break
+                        }
+                    }
+                }
+                data["datasets"].push(line)
             }
-            colourIndex++;
-            for (month of months){
-                for (month_fullname in net[year][productGroup]){
-                    if (month_fullname.substring(0,3).toLowerCase() == month.toLowerCase()){
-                        line["data"].push(net[year][productGroup][month_fullname])
-                        break
+
+
+
+            var ctx = document.getElementById("Chart").getContext('2d');
+            netImportBar = new Chart(ctx, {
+                    type: 'bar',
+                    // data: {
+                    //     labels: months ,
+                    //     datasets: [{
+                    //         label: "Chart-1",
+                    //         borderColor: 'rgb(255, 0, 1)',
+                    //         lineTension: 0,
+                    //         fill: false,
+                    //         //the same manner as described above, only is taken out of the point in the variable expression.
+                    //         data: [1,2,3,4,5,6,7,8,9,1,11] ,
+                    //     }, ]
+                    // },
+                    data: data,
+                    options: {
+                        responsive: true,
+                    }
+            });
+        }
+
+        else if (importexportChoice == "oadimport" || importexportChoice == "oadexport"){
+            if (productGroupChoice != -1) {
+                document.getElementById("productgroup").value = productGroupChoice;
+                var colourIndex = 0;
+                var colourMap = {};
+                var data = {
+                    labels: months,
+                    datasets: [
+                    ]
+                };
+
+            // remove countries with zero values
+            // map each country to a colour on colourMap
+            for (month_fullname in Type[year][productGroupChoice]){
+                for (country in Type[year][productGroupChoice][month_fullname]){
+                    if (Type[year][productGroupChoice][month_fullname][country]==0){
+                        delete Type[year][productGroupChoice][month_fullname][country]
+                    }
+                    else{
+                        if (!(country in colourMap)){
+                            colourMap[country] = backgroundColorBar[colourIndex]
+                            colourIndex++
+                        }
                     }
                 }
             }
-            data["datasets"].push(line)
-        }
 
+            // console.log(colourMap);
+            // console.log(Type);
 
+            // create dataset stencil for each country into chartjs context
+            for (country in colourMap){
+                data["datasets"].push({
+                    type: 'bar',
+                    label: country,
+                    backgroundColor: colourMap[country],
+                    data:[]
+                })
+            }
 
-        var ctx = document.getElementById("Chart").getContext('2d');
-        netImportBar = new Chart(ctx, {
-                type: 'bar',
-                // data: {
-                //     labels: months ,
-                //     datasets: [{
-                //         label: "Chart-1",
-                //         borderColor: 'rgb(255, 0, 1)',
-                //         lineTension: 0,
-                //         fill: false,
-                //         //the same manner as described above, only is taken out of the point in the variable expression.
-                //         data: [1,2,3,4,5,6,7,8,9,1,11] ,
-                //     }, ]
-                // },
+            // populate values for each country in each month into chartjs context
+            for (each_bar of data["datasets"]){
+                country = each_bar["label"]
+                for (month of months){
+                    monthFound = false
+                    for (month_fullname in Type[year][productGroupChoice]){
+                        if (month_fullname.substring(0,3).toLowerCase() == month.toLowerCase() && country in Type[year][productGroupChoice][month_fullname]){
+                            each_bar["data"].push(Type[year][productGroupChoice][month_fullname][country])
+                            monthFound = true
+                            break
+                        }
+                    }
+                    if (!monthFound){
+                        each_bar["data"].push(0)
+                    }
+                }
+            }
+            console.log(data)
+            
+            var totalsLine = {
+                type: 'line',
+                label: year,
+                data: [0,0,0,0,0,0,0,0,0,0,0,0],
+                backgroundColor:'rgba(255, 0, 0, 0.2)',
+                borderColor: 'rgba(255,0,0,1)',
+                fill:false,
+                lineTension: 0
+            }
+
+            // populating totalsLine 'data' key that contains total values for each month into chartjs context
+            for (dataset of data["datasets"]){
+                // console.log(dataset["data"])
+                for (i=0;i<dataset["data"].length;i++){
+                    totalsLine["data"][i] += dataset["data"][i]
+                }
+            }
+            data["datasets"].unshift(totalsLine)
+            // console.log(data)
+
+            var ctx = document.getElementById("Chart").getContext('2d');
+            additionalBar = new Chart(ctx, {
+                type:'bar',
                 data: data,
                 options: {
                     responsive: true,
-                }
-        });
-    }
-
-    if (origin!=null && dest!=null){
-        var colourIndex = 0;
-        var colourMap = {};
-        var data = {
-            labels: months,
-            datasets: [
-            ]
-        };
-
-        // remove countries with zero values
-        // map each country to a colour on colourMap
-        for (month_fullname in Type[year][productGroup]){
-            for (country in Type[year][productGroup][month_fullname]){
-                if (Type[year][productGroup][month_fullname][country]==0){
-                    delete Type[year][productGroup][month_fullname][country]
-                }
-                else{
-                    if (!(country in colourMap)){
-                        colourMap[country] = backgroundColorBar[colourIndex]
-                        colourIndex++
+                    scales: {
+                        xAxes: [{
+                            stacked: true // this should be set to make the bars stacked
+                        }],
+                        yAxes: [{
+                            stacked: true // this also..
+                        }]
                     }
                 }
+            });
+
+            // const data = {
+            //     labels: ['test','test1'],
+            //     datasets: [
+            //         {
+            //             label: 'Dataset 1',
+            //             data: [10,0],
+            //             backgroundColor: 'rgba(168, 205, 236, 1)',
+            //         },
+            //         {
+            //             label: 'Dataset 2',
+            //             data: [1,2],
+            //             backgroundColor: 'rgba(128, 225, 126, 1)',
+            //         },
+            //         {
+            //             label: 'Dataset 3',
+            //             data: [3,2],
+            //             backgroundColor: 'rgba(111, 142, 126, 1)',
+            //         },
+            //     ]
+            // }
             }
+
         }
-
-        console.log(colourMap);
-        console.log(Type);
-
-        // create dataset stencil for each country into chartjs context
-        for (country in colourMap){
-            data["datasets"].push({
-                type: 'bar',
-                label: country,
-                backgroundColor: colourMap[country],
-                data:[]
-            })
-        }
-
-        // populate values for each country in each month into chartjs context
-        for (each_bar of data["datasets"]){
-            country = each_bar["label"]
-            for (month of months){
-                monthFound = false
-                for (month_fullname in Type[year][productGroup]){
-                    if (month_fullname.substring(0,3).toLowerCase() == month.toLowerCase() && country in Type[year][productGroup][month_fullname]){
-                        each_bar["data"].push(Type[year][productGroup][month_fullname][country])
-                        monthFound = true
-                        break
-                    }
-                }
-                if (!monthFound){
-                    each_bar["data"].push(0)
-                }
-            }
-        }
-        console.log(data)
-        
-        var totalsLine = {
-            type: 'line',
-            label: year,
-            data: [0,0,0,0,0,0,0,0,0,0,0,0],
-            backgroundColor:'rgba(255, 0, 0, 0.2)',
-            borderColor: 'rgba(255,0,0,1)',
-            fill:false,
-            lineTension: 0
-        }
-
-        // populating totalsLine 'data' key that contains total values for each month into chartjs context
-        for (dataset of data["datasets"]){
-            console.log(dataset["data"])
-            for (i=0;i<dataset["data"].length;i++){
-                totalsLine["data"][i] += dataset["data"][i]
-            }
-        }
-        data["datasets"].unshift(totalsLine)
-        console.log(data)
-
-        var ctx = document.getElementById("Chart").getContext('2d');
-        additionalBar = new Chart(ctx, {
-            type:'bar',
-            data: data,
-            options: {
-                responsive: true,
-                scales: {
-                    xAxes: [{
-                        stacked: true // this should be set to make the bars stacked
-                    }],
-                    yAxes: [{
-                        stacked: true // this also..
-                    }]
-                }
-            }
-        });
-
-        // const data = {
-        //     labels: ['test','test1'],
-        //     datasets: [
-        //         {
-        //             label: 'Dataset 1',
-        //             data: [10,0],
-        //             backgroundColor: 'rgba(168, 205, 236, 1)',
-        //         },
-        //         {
-        //             label: 'Dataset 2',
-        //             data: [1,2],
-        //             backgroundColor: 'rgba(128, 225, 126, 1)',
-        //         },
-        //         {
-        //             label: 'Dataset 3',
-        //             data: [3,2],
-        //             backgroundColor: 'rgba(111, 142, 126, 1)',
-        //         },
-        //     ]
-        // }
-    }
-        
+                
         
     }
 

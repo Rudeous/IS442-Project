@@ -164,6 +164,7 @@
             var sheetName = sheetNamesArr[sheet].slice(-7);
             if (sheetName.slice(4, 5) != "-") {
                 sheetName = "Current Year";
+                option.selected = true;
             }
             option.text = sheetName;
             select.appendChild(option);
@@ -215,10 +216,10 @@
             "export": []
         };
         
-        console.log(sheet);
-        console.log(data[sheet]["Periods"]);
+        // console.log(sheet);
+        // console.log(data[sheet]["Periods"]);
         monthsArr = data[sheet]["Periods"].slice(0, 12);
-        console.log(monthsArr);
+        // console.log(monthsArr);
         importArr = data[sheet]["Imports"];
         exportArr = data[sheet]["Exports"];
 
