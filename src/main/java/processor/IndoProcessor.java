@@ -53,7 +53,7 @@ public class IndoProcessor {
             }
         }
         printJson(finalJSONFile);
-        writeJsonObjToFile(finalJSONFile,folderName+"\\indonesiaDataset.json");
+        // writeJsonObjToFile(finalJSONFile,folderName+"\\indonesiaDataset.json");
         MongoDbConnect.insert(finalJSONFile, "IS442", "IndoOilData");
     }
 
