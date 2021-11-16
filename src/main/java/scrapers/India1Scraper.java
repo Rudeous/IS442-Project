@@ -30,30 +30,6 @@ public class India1Scraper {
 
     public static void scrapeIndia1() throws InterruptedException {
 
-        // config
-//        String dlPath = "\\src\\main\\resources";
-//        ChromeOptions chromeOptions = new ChromeOptions();
-//        chromeOptions.addArguments("--headless");
-//        Map<String, Object> prefs = new HashMap<String, Object>();
-//        prefs.put("download.default_directory",System.getProperty("user.dir")+ dlPath);
-//        chromeOptions.setExperimentalOption("prefs", prefs);
-//
-//        String chromeVer = "95";
-//        WebDriver driver = null;
-//        try {
-//            System.out.println(ChromeOS.OSDetector());
-//            String chromePath = "src/main/resources/chromedrivers/" + chromeVer + "/" + ChromeOS.OSDetector();
-//            System.out.println(chromePath);
-//            System.setProperty("webdriver.chrome.driver", chromePath);
-//            driver = new ChromeDriver(chromeOptions);
-//        } catch(SessionNotCreatedException e){
-//            String errorMsg = e.getMessage();
-//            chromeVer = ChromeOS.getVersionNumStr(errorMsg);
-//            String chromePath = "src/main/resources/chromedrivers/" + chromeVer + ChromeOS.OSDetector();
-//            System.out.println(chromePath);
-//            System.setProperty("webdriver.chrome.driver", chromePath);
-//            driver = new ChromeDriver(chromeOptions);
-//        }
 
         WebDriver driver = getChromeDriver();
 
