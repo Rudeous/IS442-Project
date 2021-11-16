@@ -41,6 +41,16 @@ public class IndonesiaController {
         model.addAttribute("import",Types.get(0));
         model.addAttribute("export",Types.get(1));
         //model.addAttribute("productGroup",productGroup);
+
+        // endpoint:/indonesia/net
+        Map<String, Map<String, Map<String, BigDecimal>>> net = IndonesiaService.getNetValues();
+        model.addAttribute("net",net);
+
+        ArrayList<Map<String, Map<String, Map<String, Map<String,BigDecimal>>>>> byOriginAndDestination =
+                IndonesiaService.getByOriginAndDestination();
+        model.addAttribute("byOriginAndDestinationImports",byOriginAndDestination.get(0));
+        model.addAttribute("byOriginAndDestinationExports",byOriginAndDestination.get(1));
+
         return "new_indonesia";
     }
 
