@@ -1,14 +1,12 @@
 package db;
 import scrapers.ChromeOS;
-import db.RunDbScripts;
+import db.RunWindowsDbScripts;
 
 import com.mongodb.MongoClient;
 import com.mongodb.client.*;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import com.mongodb.util.JSON;
-import com.mongodb.*;
 import org.bson.*;
 import org.json.JSONObject;
 
@@ -16,7 +14,6 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
-import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.util.*;
 // import com.mongodb.client.model.Filters.*;
@@ -29,17 +26,15 @@ public class MongoDbConnect {
         String osType = ChromeOS.OSDetector();
         switch (osType) {
             case "windows":
-                System.out.println("reached 1");
                 if (mongoIsConnected()) {
                     System.out.println("MongoDb is already connected");
                     break;
                 }
-                RunDbScripts.runBatchFile();
-                System.out.println("reached 2");
+                RunWindowsDbScripts.runBatchFile();
                 break;
             
             case "mac":
-                RunDbScripts.runBashScript();
+                // .runBashScript();
                 break;
 
         }

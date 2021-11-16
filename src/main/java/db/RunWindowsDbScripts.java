@@ -1,24 +1,10 @@
 package db;
 
-import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class RunDbScripts implements Runnable {
-    private Thread worker;
-    private final AtomicBoolean running = new AtomicBoolean(false);
-    private int interval;
-
-    public void start() {
-        worker = new Thread(this);
-        worker.start();
-    }
- 
-    public void stop1() {
-        running.set(false);
-    }
+public class RunWindowsDbScripts implements Runnable {
 
     public void run() {
 
@@ -29,11 +15,7 @@ public class RunDbScripts implements Runnable {
         
         ProcessBuilder processBuilder = new ProcessBuilder("cmd.exe", "/c", System.getProperty("user.dir")+"\\src\\main\\resources\\mongodb\\windows\\mongod\\startMongod.bat");
         System.out.println(System.getProperty("user.dir")+"\\src\\main\\resources\\mongodb\\windows\\mongod\\startMongod.bat");
-        // try {
-        //     Runtime.getRuntime().exec("src\\main\\resources\\mongodb\\windows\\mongod\\startMongod.bat");
-        // } catch (IOException e) {
-        //     System.out.println(e.getMessage()); 
-        // }
+
         try {
             // executes windows batch file to start mongodb server in this new thread
             // processBuilder.redirectErrorStream(true);
@@ -56,16 +38,8 @@ public class RunDbScripts implements Runnable {
         // start a thread pool of 2 so that db script can continue running in background
         // without obstructing main code
         // ExecutorService executor = Executors.newFixedThreadPool(2);
-
-        Thread obj = new Thread(new RunDbScripts());
+        Thread obj = new Thread(new RunWindowsDbScripts());
         obj.start();
         System.out.println("Thread with mongoDb server running has been created");
-        
-
-    }
-
-    public static void runBashScript() {
-        ProcessBuilder processBuilder = new ProcessBuilder("src\\main\\resources\\mongodb\\mac\\installMongodb.sh");
-        // check how mac directories work if needed
     }
 }
