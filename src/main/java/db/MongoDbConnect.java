@@ -1,6 +1,7 @@
 package db;
 import scrapers.ChromeOS;
 import db.RunWindowsDbScripts;
+import db.RunMacDbScripts;
 
 import com.mongodb.MongoClient;
 import com.mongodb.client.*;
@@ -34,7 +35,7 @@ public class MongoDbConnect {
                 break;
             
             case "mac":
-                // .runBashScript();
+                RunMacDbScripts.runBashScript();
                 break;
 
         }
