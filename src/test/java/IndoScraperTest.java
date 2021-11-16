@@ -1,11 +1,11 @@
 import org.junit.jupiter.api.Test;
 
 import scrapers.HSCodes;
-import scrapers.ScrapperIndo;
+import scrapers.IndoScraper;
 
-public class ScrapperIndoTest {
+public class IndoScraperTest {
     @Test
     void Test() throws InterruptedException {
-        ScrapperIndo.ScrapeIndo();
+        IndoScraper.ScrapeIndo();
     }
 }

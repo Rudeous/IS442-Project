@@ -14,7 +14,7 @@ import db.MongoDbConnect;
 //  ASSUMPTIONS
 // - row structure and line positioning remain constant
 
-public class Processor {
+public class India1Processor {
 //    private static final String CURRENTEXCEL = "./src/main/resources/PT_import.xls";
 //    private static final String HISTORICALEXCEL = "./src/main/resources/PT_import_H.xls";
 

@@ -20,7 +20,7 @@ import java.util.*;
 //- fix file format to .xls
 
 
-public class ScrapperIndo {
+public class IndoScraper {
 
     public static boolean checkElement(WebDriver driver, String className){
         try{
