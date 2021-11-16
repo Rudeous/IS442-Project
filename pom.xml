@@ -207,7 +207,7 @@
           <configuration>
             <archive>
               <manifest>
-                <mainClass>demo.MainJob</mainClass>
+                <mainClass>PopulateDB</mainClass>
               </manifest>
             </archive>
             <descriptorRefs>
